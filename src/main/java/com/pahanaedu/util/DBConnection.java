@@ -36,7 +36,7 @@ public class DBConnection {
         }
     }
 
-    // Optional: Add a method to test the connection
+    // Add a method to test the connection
     public static boolean testConnection() {
         try (Connection conn = getConnection()) {
             return conn.isValid(2); // 2 second timeout
