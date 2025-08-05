@@ -118,7 +118,7 @@
 <body>
 <div class="container-fluid py-4">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">
+        <h1 class="mb-0 text-dark">
             <i class="fas fa-users fa-fw me-2"></i>Customer Management
         </h1>
         <div class="text-end">
@@ -176,7 +176,6 @@
                                    onclick="return confirm('Are you sure you want to delete this customer?')">
                                     <i class="fas fa-trash-alt"></i> Delete
                                 </a>
-
                             </td>
                         </tr>
                     </c:forEach>
