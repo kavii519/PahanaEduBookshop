@@ -1,9 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <html>
 <head>
-    <title>Admin Dashboard</title>
+    <title>Staff Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -14,6 +13,7 @@
             --danger-color: #e74c3c;
             --success-color: #2ecc71;
             --light-bg: #f8f9fa;
+            --purple: #9b59b6;
         }
 
         body {
@@ -75,7 +75,6 @@
         }
 
         .card-customers { border-left: 4px solid #3498db; }
-        .card-staff { border-left: 4px solid #9b59b6; }
         .card-items { border-left: 4px solid #2ecc71; }
         .card-bills { border-left: 4px solid #e74c3c; }
 
@@ -119,7 +118,7 @@
 
         .activity-item {
             padding: 10px 0;
-            border-bottom: 1px solid #faf8f8;
+            border-bottom: 1px solid #eee;
         }
 
         .activity-item:last-child {
@@ -137,19 +136,39 @@
             border-radius: 50%;
             margin-right: 10px;
         }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            margin: 0 3px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 <!-- Top Navigation -->
 <nav class="navbar navbar-expand navbar-dark bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">PahanaEdu Admin</a>
+        <a class="navbar-brand" href="#">PahanaEdu Staff</a>
         <div class="d-flex align-items-center">
             <div class="user-profile me-3">
                 <img src="https://ui-avatars.com/api/?name=${user.username}&background=random" alt="User">
-                <span class="text-white">Admin</span>
+                <span class="text-white">${user.username} (${user.role})</span>
             </div>
-            <a href="logout.jsp" class="btn btn-outline-light">
+            <a href="logout" class="btn btn-outline-light">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </div>
@@ -160,23 +179,18 @@
 <div class="sidebar col-md-2 d-none d-md-block">
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="admin_dashboard.jsp">
+            <a class="nav-link active" href="#dashboard">
                 <i class="fas fa-home"></i> Home
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="customers.jsp">
+            <a class="nav-link" href="customers">
                 <i class="fas fa-users"></i> Customers
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="staff.jsp">
-                <i class="fas fa-user-tie"></i> Staff
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="books.jsp">
-                <i class="fas fa-book"></i> Books
+                <i class="fas fa-boxes"></i> Items
             </a>
         </li>
         <li class="nav-item">
@@ -195,7 +209,7 @@
 
         <!-- Quick Stats -->
         <div class="row mb-4">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card dashboard-card card-customers">
                     <div class="card-body text-center">
                         <i class="fas fa-users card-icon text-primary"></i>
@@ -205,32 +219,22 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card dashboard-card card-staff">
-                    <div class="card-body text-center">
-                        <i class="fas fa-user-tie card-icon text-purple"></i>
-                        <h5>Manage Staff</h5>
-                        <h2 class="mb-0">${staffCount}</h2>
-                        <a href="staff.jsp" class="btn btn-sm mt-2" style="background-color: #9b59b6; color: white;">View All</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card dashboard-card card-items">
                     <div class="card-body text-center">
                         <i class="fas fa-book card-icon text-success"></i>
                         <h5>Manage Books</h5>
-                        <h2 class="mb-0">${BookCount}</h2>
-                        <a href="items.jsp" class="btn btn-sm btn-success mt-2">View All</a>
+                        <h2 class="mb-0">${itemCount}</h2>
+                        <a href="books.jsp" class="btn btn-sm btn-success mt-2">View All</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card dashboard-card card-bills">
                     <div class="card-body text-center">
                         <i class="fas fa-receipt card-icon text-danger"></i>
                         <h5>Manage Bills</h5>
-                        <h2 class="mb-0">${BillCount}</h2>
+                        <h2 class="mb-0">${todayBillCount}</h2>
                         <a href="bills.jsp" class="btn btn-sm btn-danger mt-2">View All</a>
                     </div>
                 </div>
@@ -241,49 +245,70 @@
         <div class="quick-actions mb-4">
             <h4 class="mb-4">Quick Actions</h4>
             <div class="row">
-                <div class="col-md-3 mb-3">
+                <div class="col-md-6 mb-3">
                     <a href="add_customer.jsp" class="quick-action-btn bg-primary">
                         <i class="fas fa-user-plus"></i>
-                        <span>Add Customer</span>
+                        <span>Add New Customer</span>
                     </a>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <a href="staff-form.jsp" class="quick-action-btn" style="background-color: #9b59b6;">
-                        <i class="fas fa-user-plus"></i>
-                        <span>Register Staff</span>
-                    </a>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <a href="book_form.jsp" class="quick-action-btn bg-success">
-                        <i class="fas fa-plus-circle"></i>
-                        <span>Add Book</span>
-                    </a>
-                </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-md-6 mb-3">
                     <a href="generate_bill.jsp" class="quick-action-btn bg-danger">
                         <i class="fas fa-file-invoice-dollar"></i>
-                        <span>Generate Bill</span>
+                        <span>Generate New Bill</span>
                     </a>
                 </div>
             </div>
         </div>
-
-
-    </div>
-</div>
+                </div>
+            </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Simple script to handle sidebar navigation highlighting
+    // Handle sidebar navigation
     document.addEventListener('DOMContentLoaded', function() {
         const navLinks = document.querySelectorAll('.nav-link');
+        const sections = {
+            dashboard: document.getElementById('dashboard'),
+            customers: document.getElementById('customers'),
+            items: document.getElementById('items'),
+            bills: document.getElementById('bills')
+        };
+
+        // Hide all sections except dashboard initially
+        for (const key in sections) {
+            if (key !== 'dashboard') {
+                sections[key].style.display = 'none';
+            }
+        }
 
         navLinks.forEach(link => {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                // Remove active class from all links
                 navLinks.forEach(l => l.classList.remove('active'));
+
+                // Add active class to clicked link
                 this.classList.add('active');
+
+                // Hide all sections
+                for (const key in sections) {
+                    sections[key].style.display = 'none';
+                }
+
+                // Show the selected section
+                const target = this.getAttribute('href').substring(1);
+                sections[target].style.display = 'block';
             });
         });
+
+        // Handle hash on page load
+        if (window.location.hash) {
+            const target = window.location.hash.substring(1);
+            if (sections[target]) {
+                document.querySelector(`.nav-link[href="#${target}"]`).click();
+            }
+        }
     });
 </script>
 </body>
