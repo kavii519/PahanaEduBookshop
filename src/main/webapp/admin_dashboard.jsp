@@ -161,7 +161,7 @@
     <ul class="nav flex-column">
         <li class="nav-item">
             <a class="nav-link active" href="admin_dashboard.jsp">
-                <i class="fas fa-tachometer-alt"></i> Dashboard
+                <i class="fas fa-home"></i> Home
             </a>
         </li>
         <li class="nav-item">
@@ -201,7 +201,7 @@
                         <i class="fas fa-users card-icon text-primary"></i>
                         <h5>Customers</h5>
                         <h2 class="mb-0">${customerCount}</h2>
-                        <a href="customers.jsp" class="btn btn-sm btn-primary mt-2">View All</a>
+                        <a href="customers" class="btn btn-sm btn-primary mt-2">View All</a>
                     </div>
                 </div>
             </div>
