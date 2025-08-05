@@ -170,7 +170,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="staff.jsp">
+            <a class="nav-link" href="StaffController">
                 <i class="fas fa-user-tie"></i> Staff
             </a>
         </li>
@@ -211,7 +211,7 @@
                         <i class="fas fa-user-tie card-icon text-purple"></i>
                         <h5>Manage Staff</h5>
                         <h2 class="mb-0">${staffCount}</h2>
-                        <a href="staff.jsp" class="btn btn-sm mt-2" style="background-color: #9b59b6; color: white;">View All</a>
+                        <a href="StaffController" class="btn btn-sm mt-2" style="background-color: #9b59b6; color: white;">View All</a>
                     </div>
                 </div>
             </div>
