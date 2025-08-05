@@ -126,13 +126,11 @@ public class StaffController extends HttpServlet {
             throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
         String email = request.getParameter("email");
 
         StaffDTO staff = new StaffDTO();
         staff.setId(id);
         staff.setUsername(username);
-        staff.setPassword(password);
         staff.setEmail(email);
 
         staffService.updateStaff(staff);
