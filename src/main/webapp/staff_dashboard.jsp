@@ -189,7 +189,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="books.jsp">
+            <a class="nav-link" href="items.jsp">
                 <i class="fas fa-boxes"></i> Items
             </a>
         </li>
@@ -225,7 +225,7 @@
                         <i class="fas fa-book card-icon text-success"></i>
                         <h5>Manage Books</h5>
                         <h2 class="mb-0">${itemCount}</h2>
-                        <a href="books.jsp" class="btn btn-sm btn-success mt-2">View All</a>
+                        <a href="items.jsp" class="btn btn-sm btn-success mt-2">View All</a>
                     </div>
                 </div>
             </div>
