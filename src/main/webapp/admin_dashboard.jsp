@@ -165,7 +165,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="customers.jsp">
+            <a class="nav-link" href="customers">
                 <i class="fas fa-users"></i> Customers
             </a>
         </li>
@@ -175,8 +175,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="books.jsp">
-                <i class="fas fa-book"></i> Books
+            <a class="nav-link" href="items">
+                <i class="fas fa-book"></i> Item
             </a>
         </li>
         <li class="nav-item">
@@ -200,7 +200,6 @@
                     <div class="card-body text-center">
                         <i class="fas fa-users card-icon text-primary"></i>
                         <h5>Manage Customers</h5>
-                        <h2 class="mb-0">${customerCount}</h2>
                         <a href="customers" class="btn btn-sm btn-primary mt-2">View All</a>
                     </div>
                 </div>
@@ -210,7 +209,6 @@
                     <div class="card-body text-center">
                         <i class="fas fa-user-tie card-icon text-purple"></i>
                         <h5>Manage Staff</h5>
-                        <h2 class="mb-0">${staffCount}</h2>
                         <a href="StaffController" class="btn btn-sm mt-2" style="background-color: #9b59b6; color: white;">View All</a>
                     </div>
                 </div>
@@ -219,9 +217,8 @@
                 <div class="card dashboard-card card-items">
                     <div class="card-body text-center">
                         <i class="fas fa-book card-icon text-success"></i>
-                        <h5>Manage Books</h5>
-                        <h2 class="mb-0">${BookCount}</h2>
-                        <a href="items.jsp" class="btn btn-sm btn-success mt-2">View All</a>
+                        <h5>Manage Items</h5>
+                        <a href="items" class="btn btn-sm btn-success mt-2">View All</a>
                     </div>
                 </div>
             </div>
@@ -230,7 +227,6 @@
                     <div class="card-body text-center">
                         <i class="fas fa-receipt card-icon text-danger"></i>
                         <h5>Manage Bills</h5>
-                        <h2 class="mb-0">${BillCount}</h2>
                         <a href="bills.jsp" class="btn btn-sm btn-danger mt-2">View All</a>
                     </div>
                 </div>
@@ -254,7 +250,7 @@
                     </a>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <a href="book_form.jsp" class="quick-action-btn bg-success">
+                    <a href="add_item.jsp" class="quick-action-btn bg-success">
                         <i class="fas fa-plus-circle"></i>
                         <span>Add Book</span>
                     </a>
