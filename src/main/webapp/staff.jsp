@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.pahanaedu.dto.StaffDTO" %>
 <html>
 <head>
     <title>Staff Management</title>
@@ -25,7 +26,8 @@
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="mb-0">
-            <i class="fas fa-users-cog me-2"></i> Staff Management</h1>
+            <i class="fas fa-users-cog me-2"></i> Staff Management
+        </h1>
         <a href="admin_dashboard.jsp" class="btn btn-secondary">
             <i class="fas fa-arrow-left"></i> Back to Home
         </a>
@@ -37,15 +39,15 @@
                 <div class="col-md-6">
                     <h6 class="m-0 font-weight-bold text-primary">Staff List</h6>
                 </div>
+                <div class="col-md-6 text-end">
+                    <a href="StaffController?action=new" class="btn btn-success">
+                        <i class="fas fa-user-plus me-2"></i> Add New Staff
+                    </a>
+                </div>
             </div>
         </div>
 
         <div class="card-body">
-            <div class="mb-3">
-                <a href="StaffController?action=new" class="btn btn-success">
-                    <i class="fas fa-user-plus me-2"></i> Add New Staff
-                </a>
-            </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover mb-0">
                     <thead>
@@ -59,21 +61,35 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="staff" items="${staffList}">
-                        <tr>
-                            <td>${staff.id}</td>
-                            <td>${staff.username}</td>
-                            <td>${staff.email}</td>
-                            <td>${staff.createdAt}</td>
-                            <td>${staff.updatedAt}</td>
-                            <td>
-                                <a href="StaffController?action=delete&id=${staff.id}" class="btn btn-sm btn-danger"
-                                   onclick="return confirm('Are you sure you want to delete this staff member?')">
-                                    <i class="fas fa-trash-alt"></i> Delete
-                                </a>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                    <%
+                        List<StaffDTO> staffList = (List<StaffDTO>) request.getAttribute("staffList");
+                        if (staffList != null && !staffList.isEmpty()) {
+                            for (StaffDTO staff : staffList) {
+                    %>
+                    <tr>
+                        <td><%= staff.getId() %></td>
+                        <td><%= staff.getUsername() %></td>
+                        <td><%= staff.getEmail() %></td>
+                        <td><%= staff.getCreatedAt() %></td>
+                        <td><%= staff.getUpdatedAt() %></td>
+                        <td class="action-btns">
+                            <a href="StaffController?action=delete&id=<%= staff.getId() %>"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Are you sure you want to delete this staff member?')">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                    <%
+                        }
+                    } else {
+                    %>
+                    <tr>
+                        <td colspan="6" class="text-center">No staff members found.</td>
+                    </tr>
+                    <%
+                        }
+                    %>
                     </tbody>
                 </table>
             </div>

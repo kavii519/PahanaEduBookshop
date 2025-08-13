@@ -1,6 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.pahanaedu.dto.CustomerDTO" %>
 <html>
 <head>
     <title>Edit Customer</title>
@@ -23,34 +22,39 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Edit Customer</h2>
-            <a href="${pageContext.request.contextPath}/customers" class="btn btn-secondary">
-
+            <a href="customers.jsp" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Back to List
             </a>
         </div>
 
         <div class="form-container">
-            <c:if test="${not empty error}">
-                <div class="alert alert-danger">${error}</div>
-            </c:if>
+            <%
+                String error = (String) request.getAttribute("error");
+                CustomerDTO customer = (CustomerDTO) request.getAttribute("customer");
+                if (error != null) {
+            %>
+            <div class="alert alert-danger"><%= error %></div>
+            <%
+                }
+            %>
 
-            <form action="${pageContext.request.contextPath}/customers/edit" method="post">
-                <input type="hidden" name="id" value="${customer.id}">
+            <form action="<%= request.getContextPath() %>/customers/edit" method="post">
+                <input type="hidden" name="id" value="<%= customer.getId() %>">
                 <div class="mb-3">
                     <label for="name" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="${customer.name}" required>
+                    <input type="text" class="form-control" id="name" name="name" value="<%= customer.getName() %>" required>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="${customer.email}" required>
+                    <input type="email" class="form-control" id="email" name="email" value="<%= customer.getEmail() %>" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Phone Number</label>
-                    <input type="tel" class="form-control" id="phone" name="phone" value="${customer.phone}" required>
+                    <input type="tel" class="form-control" id="phone" name="phone" value="<%= customer.getPhone() %>" required>
                 </div>
                 <div class="mb-3">
                     <label for="address" class="form-label">Address</label>
-                    <textarea class="form-control" id="address" name="address" rows="3" required>${customer.address}</textarea>
+                    <textarea class="form-control" id="address" name="address" rows="3" required><%= customer.getAddress() %></textarea>
                 </div>
                 <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary">

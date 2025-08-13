@@ -1,6 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Add Staff Member</title>
@@ -29,9 +27,14 @@
         </div>
 
         <div class="form-container">
-            <c:if test="${not empty error}">
-                <div class="alert alert-danger">${error}</div>
-            </c:if>
+            <%
+                String error = (String) request.getAttribute("error");
+                if (error != null) {
+            %>
+            <div class="alert alert-danger"><%= error %></div>
+            <%
+                }
+            %>
 
             <form action="StaffController?action=insert" method="post">
                 <div class="mb-3">
