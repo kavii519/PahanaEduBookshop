@@ -47,15 +47,10 @@
         }
 
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
             position: relative;
             z-index: 2;
-            background-color: var(--white);
-            border-radius: 16px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-            padding: 30px;
-            animation: fadeInUp 0.6s ease-out;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
         }
 
         .page-header {
@@ -69,7 +64,7 @@
 
         .page-title {
             font-weight: 700;
-            color: var(--secondary);
+            color: var(--white);
             margin: 0;
             font-size: 1.8rem;
         }
@@ -247,12 +242,10 @@
     </style>
 </head>
 <body>
-<i class="fas fa-book-open book-decoration book-1"></i>
-<i class="fas fa-book book-decoration book-2"></i>
 
 <div class="container">
     <div class="page-header">
-        <h1 class="page-title"><i class="fas fa-file-invoice"></i>Bill History</h1>
+        <h1 class="page-title"><i class="fas fa-file-invoice"></i> Bill History</h1>
     </div>
 
     <div class="card">

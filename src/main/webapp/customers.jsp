@@ -344,7 +344,7 @@
 <body>
 <div class="container-fluid py-4">
     <div class="page-header">
-        <h1 class="page-title"><i class="fas fa-users fa-fw me-2"></i>Customer Management</h1>
+        <h1 class="page-title"><i class="fas fa-users fa-fw me-2"></i> Customer Management</h1>
         <p class="mb-0 text-muted">Manage your customer information and interactions</p>
         <a href="add_customer.jsp" class="btn btn-primary add-item-btn">
             <i class="fas fa-plus me-1"></i>Add New Customer

@@ -360,8 +360,6 @@
     </style>
 </head>
 <body>
-<i class="fas fa-book-open book-decoration book-1"></i>
-<i class="fas fa-book book-decoration book-2"></i>
 
 <div class="container">
     <div class="page-header">
