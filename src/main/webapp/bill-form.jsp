@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Create Bill</title>
@@ -53,6 +54,22 @@
             margin: 0 auto;
             position: relative;
             z-index: 2;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .page-title {
+            font-weight: 700;
+            color: var(--white);
+            margin: 0;
+            font-size: 1.8rem;
         }
 
         h2 {
@@ -362,13 +379,17 @@
 </head>
 <body>
 <div class="container">
-    <h2><i class="fas fa-file-invoice-dollar"></i> Create New Bill</h2>
-
+    <div class="page-header">
+        <h1 class="page-title">
+            <i class="fas fa-file-invoice"></i> Create Bill
+        </h1>
+    </div>
 <form method="post" action="${pageContext.request.contextPath}/bill/insert" id="billForm">
     <div class="input-group">
         <label for="customerSearch">Search Customer:</label>
         <input type="text" id="customerSearch" autocomplete="off" />
         <button type="button" onclick="searchCustomer()">Search</button>
+
         <div id="customerSuggestions" class="suggestion-list"></div>
     </div>
 
@@ -389,9 +410,7 @@
     <hr/>
     <h3>Total Amount: Rs <span id="totalAmountDisplay">0.00</span></h3>
 
-    <!-- Hidden fields -->
     <input type="hidden" id="itemIds" name="itemIds" />
-    <input type="hidden" id="quantities" name="quantities" />
     <input type="hidden" id="customerId" name="customerId" />
     <input type="hidden" id="totalAmount" name="totalAmount" />
 
@@ -399,29 +418,9 @@
     <button type="button" onclick="preparePrint()" class="no-print">Print Preview</button>
 </form>
 
-<%
-    String success = (String) request.getAttribute("success");
-    if (success != null) {
-%>
-<div class="success-message" style="
-        background-color: #dff0d8;
-        color: #3c763d;
-        padding: 15px;
-        margin-bottom: 20px;
-        border: 1px solid #d6e9c6;
-        border-radius: 4px;">
-    <%= success %>
-    <button onclick="this.parentElement.style.display='none'"
-            style="float: right; background: none; border: none; cursor: pointer;">
-        ×
-    </button>
-</div>
-<%
-    }
-%>
-</body>
-</html>
-
+<c:if test="${not empty error}">
+    <div class="error-message">${error}</div>
+</c:if>
 
 <script>
     function updateTotal() {
@@ -603,39 +602,34 @@
 
         const printContent = '<div id="print-section">' +
             '<div class="receipt-header">' +
-            '<h2 style="margin: 0; color: #2b2d42; font-size: 18px;">PAHANA EDU BOOKSHOP</h2>' +
-            '<p style="margin: 5px 0; color: #6c757d; font-size: 13px;">123/B, Main Street, Rathnapura.</p>' +
-            '<p style="margin: 5px 0; color: #6c757d; font-size: 13px;">Phone: 0453456789 | GSTIN: XXXXXXXX</p>' +
+            '<h2>PAHANA EDU BOOKSHOP</h2>' +
+            '<p>123/B, Manin Street, Rathnapura.</p>' +
+            '<p>Phone: 045-3456789</p>' +
             '</div>' +
-            '<hr style="border: 0; border-top: 1px dashed #adb5bd; margin: 10px 0;">' +
             '<div class="receipt-info">' +
-            '<p style="margin: 3px 0; font-size: 12px;"><strong>Bill #:</strong> TMP-' + now.getTime() + '</p>' +
-            '<p style="margin: 3px 0; font-size: 12px;"><strong>Date:</strong> ' + dateTime + '</p>' +
+            '<p><strong>Bill #:</strong> TMP-' + now.getTime() + '</p>' +
+            '<p><strong>Date:</strong> ' + dateTime + '</p>' +
             '</div>' +
-            '<div class="customer-info" style="margin: 10px 0; padding: 8px; background: #f8f9fa; border-radius: 4px;">' +
-            '<p style="margin: 3px 0; font-size: 12px;"><strong>Customer:</strong> ' + escapeHtml(customerName) + '</p>' +
+            '<div class="receipt-info">' +
+            '<p><strong>Customer:</strong> ' + escapeHtml(customerName) + '</p>' +
             phoneHtml +
             '</div>' +
-            '<table class="receipt-table" style="width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 12px;">' +
+            '<table class="receipt-table">' +
             '<thead>' +
-            '<tr style="border-bottom: 1px dashed #adb5bd;">' +
-            '<th style="text-align: left; padding: 5px 0; font-weight: 600;">Item</th>' +
-            '<th style="text-align: center; padding: 5px 0; font-weight: 600;">Qty</th>' +
-            '<th style="text-align: right; padding: 5px 0; font-weight: 600;">Price</th>' +
-            '<th style="text-align: right; padding: 5px 0; font-weight: 600;">Total</th>' +
+            '<tr>' +
+            '<th>Item</th>' +
+            '<th>Qty</th>' +
+            '<th>Price</th>' +
+            '<th>Total</th>' +
             '</tr>' +
             '</thead>' +
             '<tbody>' +
             itemsHtml +
             '</tbody>' +
             '</table>' +
-            '<div class="receipt-total" style="text-align: right; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #000; font-weight: bold;">' +
-            '<p style="margin: 5px 0;">Subtotal: Rs ' + document.getElementById('totalAmountDisplay').innerText + '</p>' +
-            '</div>' +
-            '<div class="receipt-footer" style="text-align: center; margin-top: 20px; font-size: 11px; color: #6c757d; border-top: 1px dashed #adb5bd; padding-top: 10px;">' +
-            '<p style="margin: 5px 0;">Thank you for your purchase!</p>' +
-            '<p style="margin: 5px 0;">Please retain this receipt for warranty purposes</p>' +
-            '<p style="margin: 5px 0; font-style: italic;">Returns accepted within 7 days with original receipt</p>' +
+            '<div class="receipt-footer">' +
+            '<p>Thank you for your purchase!</p>' +
+            '<p>Please come again</p>' +
             '</div>' +
             '</div>';
 
@@ -646,70 +640,44 @@
             '<style>' +
             '@media print {' +
             'body {' +
-            'font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;' +
+            'font-family: Arial, sans-serif;' +
             'width: 80mm;' +
             'margin: 0 auto;' +
             'padding: 10px;' +
             'font-size: 12px;' +
-            'color: #212529;' +
             '}' +
             '.receipt-header {' +
             'text-align: center;' +
             'margin-bottom: 10px;' +
-            '}' +
-            '.receipt-header h2 {' +
-            'margin: 0;' +
-            'color: #2b2d42;' +
-            'font-size: 18px;' +
-            '}' +
-            '.receipt-header p {' +
-            'margin: 5px 0;' +
-            'color: #6c757d;' +
-            'font-size: 13px;' +
+            'border-bottom: 1px dashed #000;' +
+            'padding-bottom: 10px;' +
             '}' +
             '.receipt-info {' +
             'margin-bottom: 10px;' +
             '}' +
-            '.customer-info {' +
-            'margin: 10px 0;' +
-            'padding: 8px;' +
-            'background: #f8f9fa;' +
-            'border-radius: 4px;' +
-            '}' +
             '.receipt-table {' +
             'width: 100%;' +
             'border-collapse: collapse;' +
-            'margin: 10px 0;' +
-            'font-size: 12px;' +
+            'margin-bottom: 10px;' +
             '}' +
-            '.receipt-table th {' +
+            '.receipt-table th, .receipt-table td {' +
+            'border-bottom: 1px dashed #ccc;' +
+            'padding: 3px 0;' +
             'text-align: left;' +
-            'padding: 5px 0;' +
-            'font-weight: 600;' +
-            'border-bottom: 1px dashed #adb5bd;' +
-            '}' +
-            '.receipt-table td {' +
-            'padding: 5px 0;' +
-            'border-bottom: 1px dashed #eee;' +
             '}' +
             '.receipt-total {' +
+            'font-weight: bold;' +
             'text-align: right;' +
             'margin-top: 10px;' +
-            'padding-top: 10px;' +
             'border-top: 1px dashed #000;' +
-            'font-weight: bold;' +
+            'padding-top: 10px;' +
             '}' +
             '.receipt-footer {' +
             'text-align: center;' +
             'margin-top: 20px;' +
-            'font-size: 11px;' +
-            'color: #6c757d;' +
-            'border-top: 1px dashed #adb5bd;' +
+            'font-size: 0.8em;' +
+            'border-top: 1px dashed #000;' +
             'padding-top: 10px;' +
-            '}' +
-            '@page {' +
-            'size: auto;' +
-            'margin: 0mm;' +
             '}' +
             '}' +
             '</style>' +

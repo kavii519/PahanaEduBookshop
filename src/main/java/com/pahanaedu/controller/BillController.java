@@ -29,6 +29,7 @@ public class BillController extends HttpServlet {
     private BillService billService = new BillServiceImpl();
 
 
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -142,12 +143,10 @@ public class BillController extends HttpServlet {
 
         // 4. Handle response
         if (billId != -1) {
-            request.setAttribute("success", "Bill created successfully!");
-            request.getRequestDispatcher("/bill-form.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/bill/list");
         } else {
             request.setAttribute("error", "Failed to create bill");
-            request.getRequestDispatcher("/bill-form.jsp").forward(request, response);
+            showNewForm(request, response);
         }
-
     }
 }
