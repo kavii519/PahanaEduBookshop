@@ -10,6 +10,12 @@ import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
+    private Connection connection;
+
+    public CustomerDAOImpl() {
+        this.connection = connection;
+    }
+
     @Override
     public boolean addCustomer(Customer customer) {
         String sql = "INSERT INTO customers (name, email, phone, address, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)";
@@ -129,6 +135,32 @@ public class CustomerDAOImpl implements CustomerDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return 0;
     }
+
+    public List<Customer> searchCustomers(String term) throws SQLException {
+        List<Customer> customers = new ArrayList<>();
+        String sql = "SELECT * FROM customers WHERE name LIKE ? OR email LIKE ? ORDER BY name LIMIT 10";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            String likeTerm = "%" + term + "%";
+            ps.setString(1, likeTerm);
+            ps.setString(2, likeTerm);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Customer c = new Customer();
+                c.setId(rs.getInt("id"));
+                c.setName(rs.getString("name"));
+                c.setEmail(rs.getString("email"));
+                c.setPhone(rs.getString("phone"));
+                c.setAddress(rs.getString("address"));
+                c.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                c.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+                customers.add(c);
+            }
+        }
+        return customers;
+    }
+
 }

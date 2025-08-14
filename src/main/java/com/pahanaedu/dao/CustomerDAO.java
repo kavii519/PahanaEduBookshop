@@ -10,4 +10,5 @@ public interface CustomerDAO {
     boolean updateCustomer(Customer customer);
     boolean deleteCustomer(int id);
     int getCustomerCount();
+
 }

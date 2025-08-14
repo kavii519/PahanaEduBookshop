@@ -5,11 +5,13 @@ import com.pahanaedu.dao.impl.CustomerDAOImpl;
 import com.pahanaedu.dto.CustomerDTO;
 import com.pahanaedu.model.Customer;
 import com.pahanaedu.service.CustomerService;
-import java.time.LocalDateTime;
+
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
+    private Connection connection;
     private final CustomerDAO customerDAO = new CustomerDAOImpl();
 
     @Override
@@ -50,6 +52,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public int getTotalCustomerCount() {
         return customerDAO.getCustomerCount();
+    }
+
+    @Override
+    public Customer getCustomerById(int id) {
+        return customerDAO.getCustomerById(id);
     }
 
     private CustomerDTO convertToDTO(Customer customer) {

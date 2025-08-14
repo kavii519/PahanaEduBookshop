@@ -11,4 +11,6 @@ public interface CustomerService {
     boolean updateCustomerDetails(Customer customer);
     boolean removeCustomer(int id);
     int getTotalCustomerCount();
+
+    Customer getCustomerById(int customerId);
 }
