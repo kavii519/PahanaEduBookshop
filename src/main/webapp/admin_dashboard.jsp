@@ -7,55 +7,100 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #3498db;
-            --danger-color: #e74c3c;
-            --success-color: #2ecc71;
-            --warning-color: #f39c12;
-            --light-bg: #f8f9fa;
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #adb5bd;
+            --white: #ffffff;
+            --success: #4cc9f0;
+            --error: #ef233c;
+            --transition: all 0.3s ease;
             --sidebar-width: 280px;
-            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-bg);
-            overflow-x: hidden;
+            font-family: 'Times New Roman', 'Segoe UI', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(67, 97, 238, 0.85);
+            z-index: 1;
+        }
+
+        .navbar {
+            background-color: var(--primary) !important;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+            position: relative;
         }
 
         .navbar-brand {
             font-weight: 700;
             letter-spacing: 1px;
+            color: var(--white) !important;
         }
 
         .sidebar {
-            background-color: white;
+            background-color: var(--white);
             box-shadow: 0 0 15px rgba(0,0,0,0.1);
             height: 100vh;
             position: fixed;
             width: var(--sidebar-width);
             padding-top: 20px;
-            transition: all var(--transition-speed) ease;
+            transition: all var(--transition) ease;
             z-index: 1000;
         }
 
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
         .sidebar .nav-link {
-            color: var(--secondary-color);
+            color: var(--secondary);
             border-radius: 8px;
             margin: 8px 15px;
             font-weight: 500;
             padding: 12px 15px;
-            transition: all var(--transition-speed) ease;
+            transition: all var(--transition) ease;
             display: flex;
             align-items: center;
         }
 
         .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            background-color: var(--accent-color);
-            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
             transform: translateX(5px);
-            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
         }
 
         .sidebar .nav-link i {
@@ -68,18 +113,20 @@
         .main-content {
             margin-left: var(--sidebar-width);
             padding: 30px;
-            transition: all var(--transition-speed) ease;
+            transition: all var(--transition) ease;
+            position: relative;
+            z-index: 2;
         }
 
         .dashboard-card {
             border: none;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-            transition: all var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all var(--transition) ease;
             height: 100%;
             overflow: hidden;
             position: relative;
-            background: white;
+            background: var(--white);
         }
 
         .dashboard-card::before {
@@ -99,20 +146,20 @@
         .card-icon {
             font-size: 2.5rem;
             margin-bottom: 20px;
-            transition: all var(--transition-speed) ease;
+            transition: all var(--transition) ease;
         }
 
         .dashboard-card:hover .card-icon {
             transform: scale(1.1);
         }
 
-        .card-customers::before { background-color: var(--accent-color); }
-        .card-staff::before { background-color: #9b59b6; }
-        .card-items::before { background-color: var(--success-color); }
-        .card-bills::before { background-color: var(--danger-color); }
+        .card-customers::before { background-color: var(--primary); }
+        .card-staff::before { background-color: var(--accent); }
+        .card-items::before { background-color: var(--success); }
+        .card-bills::before { background-color: var(--error); }
 
         .quick-actions {
-            background: white;
+            background: var(--white);
             border-radius: 12px;
             padding: 25px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
@@ -128,9 +175,9 @@
             text-align: center;
             padding: 20px 15px;
             border-radius: 10px;
-            color: white;
+            color: var(--white);
             text-decoration: none;
-            transition: all var(--transition-speed) cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all var(--transition) ease;
             height: 100%;
             position: relative;
             overflow: hidden;
@@ -149,14 +196,14 @@
 
         .quick-action-btn:hover {
             transform: translateY(-5px);
-            color: white;
+            color: var(--white);
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .quick-action-btn i {
             font-size: 1.8rem;
             margin-bottom: 15px;
-            transition: all var(--transition-speed) ease;
+            transition: all var(--transition) ease;
         }
 
         .quick-action-btn:hover i {
@@ -166,7 +213,7 @@
         .user-profile {
             display: flex;
             align-items: center;
-            transition: all var(--transition-speed) ease;
+            transition: all var(--transition) ease;
         }
 
         .user-profile:hover {
@@ -179,7 +226,7 @@
             border-radius: 50%;
             margin-right: 12px;
             border: 2px solid rgba(255,255,255,0.3);
-            transition: all var(--transition-speed) ease;
+            transition: all var(--transition) ease;
         }
 
         .user-profile:hover img {
@@ -190,6 +237,7 @@
             position: relative;
             padding-bottom: 15px;
             margin-bottom: 30px;
+            color: var(--white);
         }
 
         .page-title::after {
@@ -199,25 +247,36 @@
             left: 0;
             width: 60px;
             height: 4px;
-            background: linear-gradient(to right, var(--accent-color), var(--success-color));
+            background: linear-gradient(to right, var(--primary), var(--accent));
             border-radius: 2px;
-        }
-
-        .navbar {
-            padding: 15px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 999;
         }
 
         .btn-logout {
             border: 2px solid rgba(255,255,255,0.3);
-            transition: all var(--transition-speed) ease;
+            transition: all var(--transition) ease;
+            color: var(--white);
         }
 
         .btn-logout:hover {
             border-color: rgba(255,255,255,0.7);
             background-color: rgba(255,255,255,0.1);
+            color: var(--white);
         }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
 
         @media (max-width: 992px) {
             .sidebar {
@@ -231,31 +290,12 @@
             .main-content {
                 margin-left: 0;
             }
-
-            .navbar-toggler {
-                display: block;
-            }
         }
-
-        /* Animation classes */
-        .fade-in {
-            animation: fadeIn 0.6s ease forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
 <!-- Top Navigation -->
-<nav class="navbar navbar-expand navbar-dark bg-primary">
+<nav class="navbar navbar-expand navbar-dark">
     <div class="container-fluid">
         <button class="navbar-toggler d-lg-none me-3" type="button" id="sidebarToggle">
             <i class="fas fa-bars"></i>
@@ -302,8 +342,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-cog"></i> Settings
+            <a class="nav-link" href="logout.jsp">
+                <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </li>
     </ul>
@@ -313,17 +353,17 @@
 <div class="main-content">
     <!-- Dashboard Overview -->
     <div id="dashboard">
-        <h2 class="page-title">Dashboard Overview</h2>
+        <h2 class="page-title">Admin Dashboard</h2>
 
         <!-- Quick Stats -->
         <div class="row mb-4">
             <div class="col-lg-3 col-md-6 mb-4 fade-in delay-1">
                 <div class="card dashboard-card card-customers">
                     <div class="card-body text-center py-4">
-                        <i class="fas fa-users card-icon text-primary"></i>
+                        <i class="fas fa-users card-icon" style="color: var(--primary);"></i>
                         <h4 class="mb-3">Customers</h4>
                         <p class="text-muted mb-4">Manage customer accounts</p>
-                        <a href="customers" class="btn btn-primary px-4">
+                        <a href="customers" class="btn px-4" style="background-color: var(--primary); color: white;">
                             <i class="fas fa-arrow-right me-2"></i>View
                         </a>
                     </div>
@@ -332,10 +372,10 @@
             <div class="col-lg-3 col-md-6 mb-4 fade-in delay-2">
                 <div class="card dashboard-card card-staff">
                     <div class="card-body text-center py-4">
-                        <i class="fas fa-user-tie card-icon" style="color: #9b59b6;"></i>
+                        <i class="fas fa-user-tie card-icon" style="color: var(--accent);"></i>
                         <h4 class="mb-3">Staff</h4>
                         <p class="text-muted mb-4">Manage staff members</p>
-                        <a href="StaffController" class="btn px-4" style="background-color: #9b59b6; color: white;">
+                        <a href="StaffController" class="btn px-4" style="background-color: var(--accent); color: white;">
                             <i class="fas fa-arrow-right me-2"></i>View
                         </a>
                     </div>
@@ -344,10 +384,10 @@
             <div class="col-lg-3 col-md-6 mb-4 fade-in delay-3">
                 <div class="card dashboard-card card-items">
                     <div class="card-body text-center py-4">
-                        <i class="fas fa-book card-icon text-success"></i>
+                        <i class="fas fa-book card-icon" style="color: var(--success);"></i>
                         <h4 class="mb-3">Items</h4>
                         <p class="text-muted mb-4">Manage inventory items</p>
-                        <a href="items" class="btn btn-success px-4">
+                        <a href="items" class="btn px-4" style="background-color: var(--success); color: white;">
                             <i class="fas fa-arrow-right me-2"></i>View
                         </a>
                     </div>
@@ -356,10 +396,10 @@
             <div class="col-lg-3 col-md-6 mb-4 fade-in delay-4">
                 <div class="card dashboard-card card-bills">
                     <div class="card-body text-center py-4">
-                        <i class="fas fa-receipt card-icon text-danger"></i>
+                        <i class="fas fa-receipt card-icon" style="color: var(--error);"></i>
                         <h4 class="mb-3">Bills</h4>
                         <p class="text-muted mb-4">Manage transactions</p>
-                        <a href="bill/list.jsp" class="btn btn-danger px-4">
+                        <a href="bill/list" class="btn px-4" style="background-color: var(--error); color: white;">
                             <i class="fas fa-arrow-right me-2"></i>View
                         </a>
                     </div>
@@ -372,25 +412,25 @@
             <h4 class="mb-4"><i class="fas fa-bolt me-2"></i>Quick Actions</h4>
             <div class="row">
                 <div class="col-lg-3 col-md-6 mb-3">
-                    <a href="add_customer.jsp" class="quick-action-btn" style="background-color: var(--accent-color);">
+                    <a href="add_customer.jsp" class="quick-action-btn" style="background-color: var(--primary);">
                         <i class="fas fa-user-plus"></i>
                         <span>Add Customer</span>
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
-                    <a href="staff-form.jsp" class="quick-action-btn" style="background-color: #9b59b6;">
+                    <a href="staff-form.jsp" class="quick-action-btn" style="background-color: var(--accent);">
                         <i class="fas fa-user-plus"></i>
                         <span>Register Staff</span>
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
-                    <a href="add_item.jsp" class="quick-action-btn" style="background-color: var(--success-color);">
+                    <a href="add_item.jsp" class="quick-action-btn" style="background-color: var(--success);">
                         <i class="fas fa-plus-circle"></i>
                         <span>Add Item</span>
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
-                    <a href="bill-form.jsp" class="quick-action-btn" style="background-color: var(--danger-color);">
+                    <a href="bill-form.jsp" class="quick-action-btn" style="background-color: var(--error);">
                         <i class="fas fa-file-invoice-dollar"></i>
                         <span>Generate Bill</span>
                     </a>

@@ -1,89 +1,169 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Staff Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #3498db;
-            --danger-color: #e74c3c;
-            --success-color: #2ecc71;
-            --light-bg: #f8f9fa;
-            --purple: #9b59b6;
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #adb5bd;
+            --white: #ffffff;
+            --success: #4cc9f0;
+            --error: #ef233c;
+            --transition: all 0.3s ease;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-bg);
+            font-family: 'Times New Roman', 'Segoe UI', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(67, 97, 238, 0.85);
+            z-index: 1;
+        }
+
+        .navbar {
+            background-color: var(--primary) !important;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 999;
+            position: relative;
         }
 
         .navbar-brand {
             font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--white) !important;
         }
 
         .sidebar {
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: var(--white);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
             height: 100vh;
             position: fixed;
+            width: var(--sidebar-width);
             padding-top: 20px;
+            transition: all var(--transition) ease;
+            z-index: 1000;
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
         }
 
         .sidebar .nav-link {
-            color: var(--secondary-color);
-            border-radius: 5px;
-            margin: 5px 10px;
+            color: var(--secondary);
+            border-radius: 8px;
+            margin: 8px 15px;
             font-weight: 500;
+            padding: 12px 15px;
+            transition: all var(--transition) ease;
+            display: flex;
+            align-items: center;
         }
 
         .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            background-color: var(--accent-color);
-            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
         }
 
         .sidebar .nav-link i {
-            margin-right: 10px;
-            width: 20px;
+            margin-right: 12px;
+            width: 24px;
             text-align: center;
+            font-size: 1.1rem;
         }
 
         .main-content {
-            margin-left: 250px;
-            padding: 20px;
+            margin-left: var(--sidebar-width);
+            padding: 30px;
+            transition: all var(--transition) ease;
+            position: relative;
+            z-index: 2;
         }
 
         .dashboard-card {
             border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all var(--transition) ease;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            background: var(--white);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
             height: 100%;
         }
 
         .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
         .card-icon {
-            font-size: 2rem;
-            margin-bottom: 15px;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            transition: all var(--transition) ease;
         }
 
-        .card-customers { border-left: 4px solid #3498db; }
-        .card-items { border-left: 4px solid #2ecc71; }
-        .card-bills { border-left: 4px solid #e74c3c; }
+        .dashboard-card:hover .card-icon {
+            transform: scale(1.1);
+        }
+
+        .card-customers::before { background-color: var(--primary); }
+        .card-items::before { background-color: var(--success); }
+        .card-bills::before { background-color: var(--error); }
 
         .quick-actions {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: var(--white);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             margin-bottom: 30px;
+            border: 1px solid rgba(0,0,0,0.03);
         }
 
         .quick-action-btn {
@@ -92,83 +172,178 @@
             justify-content: center;
             flex-direction: column;
             text-align: center;
-            padding: 15px;
-            border-radius: 8px;
-            color: white;
+            padding: 20px 15px;
+            border-radius: 10px;
+            color: var(--white);
             text-decoration: none;
-            transition: transform 0.3s;
+            transition: all var(--transition) ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+
+        .quick-action-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
         }
 
         .quick-action-btn:hover {
-            transform: translateY(-3px);
-            color: white;
+            transform: translateY(-5px);
+            color: var(--white);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .quick-action-btn i {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            transition: all var(--transition) ease;
         }
 
-        .recent-activity {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .activity-item {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
+        .quick-action-btn:hover i {
+            transform: scale(1.2);
         }
 
         .user-profile {
             display: flex;
             align-items: center;
+            transition: all var(--transition) ease;
+        }
+
+        .user-profile:hover {
+            transform: translateY(-2px);
         }
 
         .user-profile img {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            margin-right: 10px;
+            margin-right: 12px;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all var(--transition) ease;
         }
 
-        .table-responsive {
-            overflow-x: auto;
+        .user-profile:hover img {
+            border-color: rgba(255,255,255,0.7);
         }
 
-        .table {
-            border-radius: 8px;
-            overflow: hidden;
+        .page-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            color: var(--white);
         }
 
-        .table th {
-            background-color: var(--primary-color);
-            color: white;
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
         }
 
-        .action-btn {
-            padding: 5px 10px;
-            margin: 0 3px;
-            font-size: 0.9rem;
+        .btn-logout {
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all var(--transition) ease;
+            color: var(--white);
+        }
+
+        .btn-logout:hover {
+            border-color: rgba(255,255,255,0.7);
+            background-color: rgba(255,255,255,0.1);
+            color: var(--white);
+        }
+
+        /* Animation classes */
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        /* Custom button styles */
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+
+        .btn-danger {
+            background-color: var(--error);
+            border-color: var(--error);
+        }
+
+        /* Quick action button colors */
+        .qa-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .qa-accent {
+            background: linear-gradient(135deg, var(--accent), #f72585cc);
+        }
+
+        .qa-success {
+            background: linear-gradient(135deg, var(--success), #3a86ff);
+        }
+
+        .qa-purple {
+            background: linear-gradient(135deg, #7209b7, #b5179e);
         }
     </style>
 </head>
 <body>
 <!-- Top Navigation -->
-<nav class="navbar navbar-expand navbar-dark bg-primary">
+<nav class="navbar navbar-expand navbar-dark">
     <div class="container-fluid">
+        <button class="navbar-toggler d-lg-none me-3" type="button" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
         <a class="navbar-brand" href="#">PahanaEdu Staff</a>
         <div class="d-flex align-items-center">
             <div class="user-profile me-3">
-                <img src="https://ui-avatars.com/api/?name=${user.username}&background=random" alt="User">
-                <span class="text-white">${user.username} (${user.role})</span>
+                <img src="https://ui-avatars.com/api/?name=Staff&background=random" alt="User">
+                <span class="text-white">Staff</span>
             </div>
-            <a href="logout" class="btn btn-outline-light">
+            <a href="logout.jsp" class="btn btn-outline-light btn-logout">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </div>
@@ -176,11 +351,11 @@
 </nav>
 
 <!-- Sidebar -->
-<div class="sidebar col-md-2 d-none d-md-block">
+<div class="sidebar d-none d-lg-block">
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link active" href="#dashboard">
-                <i class="fas fa-home"></i> Home
+            <a class="nav-link active" href="staff_dashboard.jsp">
+                <i class="fas fa-home"></i> Dashboard
             </a>
         </li>
         <li class="nav-item">
@@ -189,13 +364,23 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="items.jsp">
-                <i class="fas fa-boxes"></i> Items
+            <a class="nav-link" href="items">
+                <i class="fas fa-book"></i> Items
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="bills.jsp">
-                <i class="fas fa-receipt"></i> Bills
+            <a class="nav-link" href="bill/list">
+                <i class="fas fa-file-invoice-dollar"></i> Generate Bill
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="help.jsp">
+                <i class="fas fa-question-circle"></i> Help
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="logout.jsp">
+                <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </li>
     </ul>
@@ -203,112 +388,104 @@
 
 <!-- Main Content -->
 <div class="main-content">
-    <!-- Dashboard Overview -->
     <div id="dashboard">
-        <h2 class="mb-4">Dashboard Overview</h2>
+        <h2 class="page-title">Staff Dashboard</h2>
 
         <!-- Quick Stats -->
         <div class="row mb-4">
-            <div class="col-md-4">
+            <div class="col-lg-4 col-md-6 mb-4 fade-in delay-1">
                 <div class="card dashboard-card card-customers">
-                    <div class="card-body text-center">
+                    <div class="card-body text-center py-4">
                         <i class="fas fa-users card-icon text-primary"></i>
-                        <h5>Manage Customers</h5>
-                        <h2 class="mb-0">${customerCount}</h2>
-                        <a href="customers" class="btn btn-sm btn-primary mt-2">View All</a>
+                        <h4 class="mb-3">Customers</h4>
+                        <p class="text-muted mb-4">Add, edit, delete customers</p>
+                        <a href="customers" class="btn btn-primary px-4">
+                            <i class="fas fa-arrow-right me-2"></i>Manage
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4 col-md-6 mb-4 fade-in delay-2">
                 <div class="card dashboard-card card-items">
-                    <div class="card-body text-center">
+                    <div class="card-body text-center py-4">
                         <i class="fas fa-book card-icon text-success"></i>
-                        <h5>Manage Books</h5>
-                        <h2 class="mb-0">${itemCount}</h2>
-                        <a href="items.jsp" class="btn btn-sm btn-success mt-2">View All</a>
+                        <h4 class="mb-3">Items</h4>
+                        <p class="text-muted mb-4">View and Edit inventory items</p>
+                        <a href="items" class="btn btn-success px-4">
+                            <i class="fas fa-arrow-right me-2"></i>Manage
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-lg-4 col-md-6 mb-4 fade-in delay-3">
                 <div class="card dashboard-card card-bills">
-                    <div class="card-body text-center">
-                        <i class="fas fa-receipt card-icon text-danger"></i>
-                        <h5>Manage Bills</h5>
-                        <h2 class="mb-0">${todayBillCount}</h2>
-                        <a href="bills.jsp" class="btn btn-sm btn-danger mt-2">View All</a>
+                    <div class="card-body text-center py-4">
+                        <i class="fas fa-file-invoice-dollar card-icon text-danger"></i>
+                        <h4 class="mb-3">Generate Bills</h4>
+                        <p class="text-muted mb-4">Create transactions for customers</p>
+                        <a href="bill-form.jsp" class="btn btn-danger px-4">
+                            <i class="fas fa-arrow-right me-2"></i>Generate
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Quick Actions -->
-        <div class="quick-actions mb-4">
-            <h4 class="mb-4">Quick Actions</h4>
+        <div class="quick-actions mb-4 fade-in">
+            <h4 class="mb-4 text-white"><i class="fas fa-bolt me-2"></i>Quick Actions</h4>
             <div class="row">
-                <div class="col-md-6 mb-3">
-                    <a href="add_customer.jsp" class="quick-action-btn bg-primary">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <a href="add_customer.jsp" class="quick-action-btn qa-primary">
                         <i class="fas fa-user-plus"></i>
-                        <span>Add New Customer</span>
+                        <span>Add Customer</span>
                     </a>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <a href="generate_bill.jsp" class="quick-action-btn bg-danger">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <a href="bill-form.jsp" class="quick-action-btn qa-accent">
                         <i class="fas fa-file-invoice-dollar"></i>
-                        <span>Generate New Bill</span>
+                        <span>Generate Bill</span>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <a href="help.jsp" class="quick-action-btn qa-success">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Help</span>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <a href="items" class="quick-action-btn qa-purple">
+                        <i class="fas fa-book"></i>
+                        <span>View Items</span>
                     </a>
                 </div>
             </div>
         </div>
-                </div>
-            </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Handle sidebar navigation
-    document.addEventListener('DOMContentLoaded', function() {
-        const navLinks = document.querySelectorAll('.nav-link');
-        const sections = {
-            dashboard: document.getElementById('dashboard'),
-            customers: document.getElementById('customers'),
-            items: document.getElementById('items'),
-            bills: document.getElementById('bills')
-        };
+    // Toggle sidebar on mobile
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+        document.querySelector('.sidebar').classList.toggle('active');
+    });
 
-        // Hide all sections except dashboard initially
-        for (const key in sections) {
-            if (key !== 'dashboard') {
-                sections[key].style.display = 'none';
-            }
-        }
+    // Highlight active navigation link
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = window.location.pathname.split('/').pop();
+        const navLinks = document.querySelectorAll('.nav-link');
 
         navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
 
-                // Remove active class from all links
+            link.addEventListener('click', function() {
                 navLinks.forEach(l => l.classList.remove('active'));
-
-                // Add active class to clicked link
                 this.classList.add('active');
-
-                // Hide all sections
-                for (const key in sections) {
-                    sections[key].style.display = 'none';
-                }
-
-                // Show the selected section
-                const target = this.getAttribute('href').substring(1);
-                sections[target].style.display = 'block';
             });
         });
-
-        // Handle hash on page load
-        if (window.location.hash) {
-            const target = window.location.hash.substring(1);
-            if (sections[target]) {
-                document.querySelector(`.nav-link[href="#${target}"]`).click();
-            }
-        }
     });
 </script>
 </body>

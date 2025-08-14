@@ -2,53 +2,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Item</title>
+    <title>Add Item | Pahana Edu Bookshop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --success-color: #28a745;
-            --light-bg: #f5f7fa;
-            --border-color: #e0e6ed;
-            --text-muted: #6c757d;
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #adb5bd;
+            --white: #ffffff;
+            --success: #4cc9f0;
+            --error: #ef233c;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            background-color: var(--light-bg);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Times New Roman', 'Segoe UI', sans-serif;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
+            background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(67, 97, 238, 0.85);
+            z-index: 1;
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 2;
+            padding: 2rem 0;
         }
 
         .form-container {
-            max-width: 750px;
-            margin: 2rem auto;
+            background-color: var(--white);
             padding: 2.5rem;
-            background: white;
             border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            max-width: 750px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
         }
 
-        .form-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
         }
 
         .form-header {
             text-align: center;
             margin-bottom: 2.5rem;
-            color: var(--primary-color);
+            color: var(--primary);
             position: relative;
             padding-bottom: 1.2rem;
         }
 
         .form-header h2 {
             font-weight: 700;
-            letter-spacing: 0.5px;
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-header i {
+            color: var(--accent);
+            margin-right: 0.75rem;
         }
 
         .form-header::after {
@@ -58,39 +104,31 @@
             left: 30%;
             width: 40%;
             height: 4px;
-            background: linear-gradient(to right, var(--secondary-color), var(--success-color));
+            background: linear-gradient(to right, var(--primary), var(--accent));
             border-radius: 4px;
-        }
-
-        .form-header i {
-            color: var(--secondary-color);
-            margin-right: 10px;
-            font-size: 1.2em;
         }
 
         .form-label {
             font-weight: 600;
-            color: var(--primary-color);
+            color: var(--dark);
             margin-bottom: 0.6rem;
             display: block;
         }
 
         .form-control {
             border-radius: 10px;
-            padding: 12px 18px;
-            border: 2px solid var(--border-color);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding: 0.85rem 1.25rem;
+            border: 2px solid var(--light);
+            transition: var(--transition);
             font-size: 0.95rem;
+            background-color: var(--light);
         }
 
         .form-control:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
-        }
-
-        .form-control::placeholder {
-            color: var(--text-muted);
-            opacity: 0.7;
+            border-color: var(--primary);
+            background-color: var(--white);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+            outline: none;
         }
 
         textarea.form-control {
@@ -100,42 +138,41 @@
 
         .btn {
             border-radius: 10px;
-            padding: 12px 28px;
+            padding: 1rem 2rem;
             font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: var(--transition);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            border: none;
         }
 
         .btn-success {
-            background-color: var(--success-color);
-            border: none;
+            background: linear-gradient(135deg, var(--success), #3ab7cc);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(76, 201, 240, 0.3);
         }
 
         .btn-success:hover {
-            background-color: #218838;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.25);
+            background: linear-gradient(135deg, #3ab7cc, var(--success));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 201, 240, 0.4);
         }
 
         .btn-secondary {
-            background-color: #6c757d;
-            border: none;
+            background-color: var(--light);
+            color: var(--primary);
         }
 
         .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(108, 117, 125, 0.2);
+            background-color: var(--gray);
+            color: var(--white);
+            transform: translateY(-2px);
         }
 
         .btn i {
-            margin-right: 10px;
-            font-size: 1em;
+            margin-right: 0.75rem;
         }
 
         .action-buttons {
@@ -146,33 +183,51 @@
         }
 
         .input-group-text {
-            background-color: #f8f9fa;
-            color: var(--primary-color);
+            background-color: var(--light);
+            border: 2px solid var(--light);
+            color: var(--primary);
             font-weight: 500;
-            border: 2px solid var(--border-color);
-            border-right: none;
-            border-radius: 10px 0 0 10px !important;
         }
 
         .input-group .form-control {
             border-left: none;
-            border-radius: 0 10px 10px 0 !important;
         }
 
         .input-group:focus-within .input-group-text {
-            border-color: var(--secondary-color);
-            background-color: #e9f5ff;
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-                display: block;
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+        @media (max-width: 768px) {
             .form-container {
-                padding: 1.8rem;
-                margin: 1rem auto;
+                padding: 1.5rem;
+                margin: 1rem;
             }
 
             .action-buttons {
@@ -189,25 +244,10 @@
                 width: 60%;
             }
         }
-
-        /* Animation for form elements */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .form-group {
-            animation: fadeIn 0.5s ease forwards;
-        }
-
-        .form-group:nth-child(1) { animation-delay: 0.1s; }
-        .form-group:nth-child(2) { animation-delay: 0.2s; }
-        .form-group:nth-child(3) { animation-delay: 0.3s; }
-        .form-group:nth-child(4) { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
-<div class="container">
+<div class="main-container">
     <div class="form-container">
         <div class="form-header">
             <h2><i class="fas fa-cube"></i> Add New Item</h2>

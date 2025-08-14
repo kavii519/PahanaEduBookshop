@@ -1,162 +1,299 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-
 <html>
 <head>
-    <title>Add Customer</title>
+    <title>Add New Customer | Pahana Edu Bookshop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4e73df;
-            --secondary-color: #f8f9fc;
-            --accent-color: #2e59d9;
-            --text-color: #5a5c69;
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #adb5bd;
+            --white: #ffffff;
+            --success: #4cc9f0;
+            --error: #ef233c;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            background-color: var(--secondary-color);
-            color: var(--text-color);
-            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Times New Roman', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
         }
 
-        .form-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
-            padding: 30px;
-            max-width: 700px;
-            margin: 0 auto;
-            transition: all 0.3s ease;
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(67, 97, 238, 0.85);
+            z-index: 1;
         }
 
-        .form-container:hover {
-            box-shadow: 0 0.5rem 2rem 0 rgba(58, 59, 69, 0.2);
-        }
-
-        h2 {
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 0;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 8px;
-        }
-
-        .form-control {
-            border-radius: 8px;
-            padding: 12px 15px;
-            border: 1px solid #d1d3e2;
-            transition: all 0.3s;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent-color);
-            border-color: var(--accent-color);
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-secondary:hover {
-            transform: translateY(-1px);
-        }
-
-        .alert-danger {
-            border-radius: 8px;
-            padding: 15px;
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-            color: #721c24;
-        }
-
-        textarea.form-control {
-            min-height: 100px;
+        .main-container {
+            position: relative;
+            z-index: 2;
+            padding: 2rem 0;
         }
 
         .header-container {
-            padding: 20px;
-            background: white;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-title {
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title i {
+            margin-right: 0.75rem;
+            color: var(--accent);
+        }
+
+        .form-container {
+            background-color: var(--white);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.85rem 1.25rem;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: var(--light);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: var(--white);
+            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.15);
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--light);
+            color: var(--primary);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--gray);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .alert-danger {
+            color: var(--error);
+            padding: 1rem;
+            background-color: rgba(239, 35, 60, 0.1);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--error);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert-danger i {
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
         }
 
         .input-group-text {
-            background-color: #eaecf4;
-            border: 1px solid #d1d3e2;
+            background-color: var(--light);
+            border: 2px solid var(--light);
+            color: var(--primary);
+            min-width: 45px;
+            justify-content: center;
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--light);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @media (max-width: 768px) {
             .form-container {
-                padding: 20px;
+                padding: 1.5rem;
             }
 
-            .d-flex {
+            .header-container {
                 flex-direction: column;
-                gap: 15px;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1.25rem;
             }
 
-            h2 {
+            .page-title {
                 font-size: 1.5rem;
+            }
+
+            .form-footer {
+                flex-direction: column-reverse;
+                gap: 1rem;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
 
-<div class="main-content">
-    <div class="container mt-5">
-        <div class="header-container d-flex justify-content-between align-items-center mb-4">
-            <h2><i class="fas fa-user-plus me-2"></i>Add New Customer</h2>
-            <a href="customers" class="btn btn-secondary">
-                <i class="fas fa-arrow-left me-2"></i>Back to List
-            </a>
+<div class="main-container">
+    <div class="header-container">
+        <h1 class="page-title">
+            <i class="fas fa-user-plus"></i>Add New Customer
+        </h1>
+        <a href="customers" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Customers
+        </a>
+    </div>
+
+    <div class="form-container">
+        <% if (request.getAttribute("error") != null) { %>
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-circle"></i>
+            <div><%= request.getAttribute("error") %></div>
         </div>
+        <% } %>
 
-        <div class="form-container">
-            <% if (request.getAttribute("error") != null) { %>
-            <div class="alert alert-danger mb-4">
-                <i class="fas fa-exclamation-circle me-2"></i><%= request.getAttribute("error") %>
-            </div>
-            <% } %>
+        <form action="customers/add" method="post">
+            <div class="form-section">
+                <h3 class="section-title">
+                    <i class="fas fa-id-card me-2"></i>Customer Information
+                </h3>
 
-            <form action="customers/add" method="post">
                 <div class="mb-4">
                     <label for="name" class="form-label">Full Name</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-user"></i></span>
-                        <input type="text" class="form-control" id="name" name="name"  required>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter customer's full name" required>
                     </div>
                 </div>
 
                 <div class="mb-4">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label">Email Address</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                        <input type="email" class="form-control" id="email" name="email"  required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter customer's email" required>
                     </div>
                 </div>
 
@@ -164,28 +301,54 @@
                     <label for="phone" class="form-label">Phone Number</label>
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                        <input type="tel" class="form-control" id="phone" name="phone" required>
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter customer's phone number" required>
                     </div>
                 </div>
+            </div>
 
+            <div class="form-section">
                 <div class="mb-4">
-                    <label for="address" class="form-label">Address</label>
+                    <label for="address" class="form-label">Full Address</label>
                     <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                        <textarea class="form-control" id="address" name="address" rows="3"  required></textarea>
+                        <span class="input-group-text"><i class="fas fa-home"></i></span>
+                        <textarea class="form-control" id="address" name="address" rows="4" placeholder="Enter complete address " required></textarea>
                     </div>
                 </div>
+            </div>
 
-                <div class="d-grid gap-2 mt-4">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-2"></i> Save Customer
-                    </button>
-                </div>
-            </form>
-        </div>
+            <div class="form-footer">
+                <a href="customers" class="btn btn-secondary">
+                    <i class="fas fa-times me-2"></i>Cancel
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i> Save Customer
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Client-side validation example
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+
+        // Simple email validation
+        if (!email.includes('@') || !email.includes('.')) {
+            alert('Please enter a valid email address');
+            e.preventDefault();
+            return;
+        }
+
+        // Simple phone number validation (at least 10 digits)
+        if (phone.replace(/\D/g, '').length < 10) {
+            alert('Please enter a valid phone number with at least 10 digits');
+            e.preventDefault();
+            return;
+        }
+    });
+</script>
 </body>
 </html>
