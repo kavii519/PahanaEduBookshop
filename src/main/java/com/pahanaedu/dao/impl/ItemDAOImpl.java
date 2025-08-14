@@ -9,7 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDAOImpl implements ItemDAO {
+    private Connection connection;
 
+    public ItemDAOImpl() {
+        this.connection = connection;
+    }
     @Override
     public boolean addItem(Item item) throws SQLException {
         String sql = "INSERT INTO items (name, description, price, stock_quantity, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())";
@@ -90,4 +94,24 @@ public class ItemDAOImpl implements ItemDAO {
         }
         return items;
     }
+
+    public List<Item> searchItems(String term) throws SQLException {
+        List<Item> items = new ArrayList<>();
+        String sql = "SELECT * FROM items WHERE name LIKE ? ORDER BY name LIMIT 10";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + term + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Item item = new Item();
+                item.setId(rs.getInt("id"));
+                item.setName(rs.getString("name"));
+                item.setPrice(rs.getDouble("price"));
+                item.setStockQuantity(rs.getInt("stock_quantity"));
+                items.add(item);
+            }
+        }
+        return items;
+    }
+
 }
