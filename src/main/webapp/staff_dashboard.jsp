@@ -370,7 +370,7 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="bill/list">
-                <i class="fas fa-file-invoice-dollar"></i> Generate Bill
+                <i class="fas fa-file-invoice-dollar"></i> Bills
             </a>
         </li>
         <li class="nav-item">
@@ -421,10 +421,10 @@
                 <div class="card dashboard-card card-bills">
                     <div class="card-body text-center py-4">
                         <i class="fas fa-file-invoice-dollar card-icon text-danger"></i>
-                        <h4 class="mb-3">Generate Bills</h4>
-                        <p class="text-muted mb-4">Create transactions for customers</p>
+                        <h4 class="mb-3">Bill History</h4>
+                        <p class="text-muted mb-4">View past created bills</p>
                         <a href="bill-form.jsp" class="btn btn-danger px-4">
-                            <i class="fas fa-arrow-right me-2"></i>Generate
+                            <i class="fas fa-arrow-right me-2"></i>View
                         </a>
                     </div>
                 </div>
