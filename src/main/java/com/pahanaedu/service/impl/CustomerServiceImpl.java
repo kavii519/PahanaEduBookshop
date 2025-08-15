@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CustomerServiceImpl implements CustomerService {
     private Connection connection;
-    private final CustomerDAO customerDAO = new CustomerDAOImpl();
+    public CustomerDAO customerDAO = new CustomerDAOImpl();
 
     @Override
     public boolean registerCustomer(Customer customer) {
