@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/StaffController")
 public class StaffController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private StaffService staffService;
+    StaffService staffService;
 
     @Override
     public void init() throws ServletException {
