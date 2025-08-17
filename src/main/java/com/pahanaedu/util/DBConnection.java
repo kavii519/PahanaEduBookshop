@@ -9,11 +9,8 @@ public class DBConnection {
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
-    // private static Connection connection = null;
-
     static {
         try {
-            // Load the driver
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Failed to load MySQL JDBC driver", e);
@@ -21,7 +18,6 @@ public class DBConnection {
     }
 
     public static Connection getConnection() throws SQLException {
-        // Create a new connection each time
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
@@ -30,18 +26,25 @@ public class DBConnection {
             try {
                 connection.close();
             } catch (SQLException e) {
-                // Log this error in a real application
                 System.err.println("Error closing connection: " + e.getMessage());
             }
         }
     }
 
-    // Add a method to test the connection
     public static boolean testConnection() {
         try (Connection conn = getConnection()) {
-            return conn.isValid(2); // 2 second timeout
+            return conn.isValid(2);
         } catch (SQLException e) {
             return false;
+        }
+    }
+
+    // Temporary main method to test the connection
+    public static void main(String[] args) {
+        if (testConnection()) {
+            System.out.println("Connection successful!");
+        } else {
+            System.out.println("Connection failed!");
         }
     }
 }
