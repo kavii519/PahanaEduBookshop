@@ -335,7 +335,7 @@
                 </div>
                 <div class="alert-note alert-warning">
                     <i class="fas fa-exclamation-triangle me-2"></i>
-                    <strong>Important:</strong> Deleting customers is permanent. Consider deactivating instead if you might need the record later.
+                    <strong>Important:</strong> Deleting customers is permanent. Staff haven't access for delete customers.
                 </div>
             </div>
         </div>
@@ -372,7 +372,7 @@
                 </div>
                 <div class="alert-note alert-info">
                     <i class="fas fa-lock me-2"></i>
-                    <strong>Note:</strong> Only administrators can add items. Contact your admin if you need to add new items. But you can edit and delete existing items.
+                    <strong>Note:</strong> Only administrators can add and delete items. Contact your admin if you need to add new items. But you can edit existing items.
                 </div>
             </div>
         </div>
@@ -403,7 +403,6 @@
                         <h6><i class="fas fa-print"></i>Printing Options</h6>
                         <ul class="list-unstyled">
                             <li class="mb-2 d-flex align-items-center"><i class="fas fa-print feature-icon"></i>Print directly to your default printer</li>
-                            <li class="mb-2 d-flex align-items-center"><i class="fas fa-file-pdf feature-icon"></i>Save as PDF for emailing to customers</li>
                             <li class="mb-2 d-flex align-items-center"><i class="fas fa-receipt feature-icon"></i>Generate a simplified receipt version</li>
                         </ul>
                     </div>

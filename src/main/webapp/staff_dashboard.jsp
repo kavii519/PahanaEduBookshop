@@ -411,7 +411,7 @@
                         <i class="fas fa-book card-icon text-success"></i>
                         <h4 class="mb-3">Items</h4>
                         <p class="text-muted mb-4">View and Edit inventory items</p>
-                        <a href="items" class="btn btn-success px-4">
+                        <a href="items" class="btn btn-success px-4"style="background-color: #28a745; color: white;">
                             <i class="fas fa-arrow-right me-2"></i>Manage
                         </a>
                     </div>
@@ -423,7 +423,7 @@
                         <i class="fas fa-file-invoice-dollar card-icon text-danger"></i>
                         <h4 class="mb-3">Bill History</h4>
                         <p class="text-muted mb-4">View past created bills</p>
-                        <a href="bill-form.jsp" class="btn btn-danger px-4">
+                        <a href="bill/list.jsp" class="btn btn-danger px-4">
                             <i class="fas fa-arrow-right me-2"></i>View
                         </a>
                     </div>
