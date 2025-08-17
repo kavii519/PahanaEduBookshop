@@ -1,7 +1,9 @@
 package com.pahanaedu.controller;
 
+import com.pahanaedu.dao.CustomerDAO;
 import com.pahanaedu.dto.CustomerDTO;
 import com.pahanaedu.model.Customer;
+import com.pahanaedu.dao.CustomerDAOFactory;
 import com.pahanaedu.service.CustomerService;
 import com.pahanaedu.service.impl.CustomerServiceImpl;
 
@@ -21,6 +23,7 @@ import java.util.List;
         "/customers/delete"
 })
 public class CustomerController extends HttpServlet {
+    CustomerDAO customerDAO = CustomerDAOFactory.getCustomerDAO();
     private final CustomerService customerService = new CustomerServiceImpl();
 
     @Override
