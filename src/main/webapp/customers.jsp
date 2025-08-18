@@ -410,15 +410,10 @@
                                 <a href="customers/edit?id=<%= customer.getId() %>" class="btn btn-edit btn-sm action-btn">
                                     <i class="fas fa-edit"></i> Edit
                                 </a>
-                                <%
-                                    String role = (String) session.getAttribute("role");
-                                    if ("admin".equals(role)) {
-                                %>
                                 <a href="customers/delete?id=<%= customer.getId() %>" class="btn btn-delete btn-sm action-btn"
                                    onclick="return confirm('Are you sure you want to delete <%= customer.getName() %>? This action cannot be undone.')">
                                     <i class="fas fa-trash-alt"></i> Delete
                                 </a>
-                                <% } %>
                             </div>
                         </td>
                     </tr>

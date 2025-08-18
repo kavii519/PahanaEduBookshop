@@ -409,15 +409,10 @@
                             <a href="items?action=edit&id=<%= item.getId() %>" class="btn btn-warning btn-sm">
                                 <i class="fas fa-edit me-1"></i> Edit
                             </a>
-                            <%
-                                String role = (String) session.getAttribute("role");
-                                if ("admin".equals(role)) {
-                            %>
                             <a href="items?action=delete&id=<%= item.getId() %>" class="btn btn-danger btn-sm"
                                onclick="return confirm('Are you sure you want to delete <%= item.getName() %>? This action cannot be undone.')">
                                 <i class="fas fa-trash-alt me-1"></i> Delete
                             </a>
-                            <% } %>
                         </td>
                     </tr>
                     <%
