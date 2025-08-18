@@ -22,9 +22,14 @@ public class Item {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-
-    public Item(int i, String s, double v, int i1) {
+//For Test Use
+    public Item(int id, String name, double price, int stockQuantity) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
     }
+
 
     // Getters & Setters
     public int getId() { return id; }
