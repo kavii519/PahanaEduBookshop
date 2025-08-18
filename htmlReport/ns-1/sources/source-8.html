@@ -1,0 +1,262 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > StaffController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.pahanaedu.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: StaffController (com.pahanaedu.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StaffController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76.9%
+  </span>
+  <span class="absValue">
+    (10/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    84.6%
+  </span>
+  <span class="absValue">
+    (44/52)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.pahanaedu.controller;
+&nbsp;
+&nbsp;import com.pahanaedu.dao.StaffDAO;
+&nbsp;import com.pahanaedu.dao.impl.StaffDAOImpl;
+&nbsp;import com.pahanaedu.dto.StaffDTO;
+&nbsp;import com.pahanaedu.service.StaffService;
+&nbsp;import com.pahanaedu.service.impl.StaffServiceImpl;
+&nbsp;import com.pahanaedu.util.DBConnection;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.List;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;
+&nbsp;@WebServlet(&quot;/StaffController&quot;)
+<b class="fc">&nbsp;public class StaffController extends HttpServlet {</b>
+&nbsp;    private static final long serialVersionUID = 1L;
+&nbsp;    StaffService staffService;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init() throws ServletException {
+<b class="nc">&nbsp;        super.init();</b>
+&nbsp;        // Initialize DAO and Service
+<b class="nc">&nbsp;        StaffDAO staffDAO = null;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            staffDAO = new StaffDAOImpl(DBConnection.getConnection());</b>
+&nbsp;        } catch (SQLException e) {
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        staffService = new StaffServiceImpl(staffDAO);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+&nbsp;            throws ServletException, IOException {
+<b class="fc">&nbsp;        String action = request.getParameter(&quot;action&quot;);</b>
+&nbsp;
+&nbsp;        try {
+<b class="pc">&nbsp;            if (action == null || action.isEmpty()) {</b>
+<b class="fc">&nbsp;                listStaff(request, response);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                switch (action) {</b>
+&nbsp;                    case &quot;new&quot;:
+<b class="fc">&nbsp;                        showNewForm(request, response);</b>
+&nbsp;                        break;
+&nbsp;                    case &quot;edit&quot;:
+<b class="fc">&nbsp;                        showEditForm(request, response);</b>
+&nbsp;                        break;
+&nbsp;                    case &quot;delete&quot;:
+<b class="fc">&nbsp;                        deleteStaff(request, response);</b>
+&nbsp;                        break;
+&nbsp;                    default:
+<b class="fc">&nbsp;                        listStaff(request, response);</b>
+&nbsp;                        break;
+&nbsp;                }
+&nbsp;            }
+&nbsp;        } catch (SQLException ex) {
+<b class="nc">&nbsp;            throw new ServletException(ex);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+&nbsp;            throws ServletException, IOException {
+<b class="fc">&nbsp;        String action = request.getParameter(&quot;action&quot;);</b>
+&nbsp;
+&nbsp;        try {
+<b class="pc">&nbsp;            if (action == null || action.isEmpty()) {</b>
+<b class="nc">&nbsp;                listStaff(request, response);</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;                switch (action) {</b>
+&nbsp;                    case &quot;insert&quot;:
+<b class="fc">&nbsp;                        insertStaff(request, response);</b>
+&nbsp;                        break;
+&nbsp;                    case &quot;update&quot;:
+<b class="fc">&nbsp;                        updateStaff(request, response);</b>
+&nbsp;                        break;
+&nbsp;                    default:
+<b class="fc">&nbsp;                        listStaff(request, response);</b>
+&nbsp;                        break;
+&nbsp;                }
+&nbsp;            }
+&nbsp;        } catch (SQLException ex) {
+<b class="nc">&nbsp;            throw new ServletException(ex);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void listStaff(HttpServletRequest request, HttpServletResponse response)
+&nbsp;            throws SQLException, ServletException, IOException {
+<b class="fc">&nbsp;        List&lt;StaffDTO&gt; staffList = staffService.getAllStaff();</b>
+<b class="fc">&nbsp;        request.setAttribute(&quot;staffList&quot;, staffList);</b>
+<b class="fc">&nbsp;        request.getRequestDispatcher(&quot;staff.jsp&quot;).forward(request, response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void showNewForm(HttpServletRequest request, HttpServletResponse response)
+&nbsp;            throws ServletException, IOException {
+<b class="fc">&nbsp;        request.getRequestDispatcher(&quot;staff-form.jsp&quot;).forward(request, response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+&nbsp;            throws SQLException, ServletException, IOException {
+<b class="fc">&nbsp;        int id = Integer.parseInt(request.getParameter(&quot;id&quot;));</b>
+<b class="fc">&nbsp;        StaffDTO existingStaff = staffService.getStaffById(id);</b>
+<b class="fc">&nbsp;        request.setAttribute(&quot;staff&quot;, existingStaff);</b>
+<b class="fc">&nbsp;        request.getRequestDispatcher(&quot;staff-form.jsp&quot;).forward(request, response);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void insertStaff(HttpServletRequest request, HttpServletResponse response)
+&nbsp;            throws SQLException, IOException {
+<b class="fc">&nbsp;        String username = request.getParameter(&quot;username&quot;);</b>
+<b class="fc">&nbsp;        String password = request.getParameter(&quot;password&quot;);</b>
+<b class="fc">&nbsp;        String email = request.getParameter(&quot;email&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        StaffDTO newStaff = new StaffDTO();</b>
+<b class="fc">&nbsp;        newStaff.setUsername(username);</b>
+<b class="fc">&nbsp;        newStaff.setPassword(password);</b>
+<b class="fc">&nbsp;        newStaff.setEmail(email);</b>
+&nbsp;
+<b class="fc">&nbsp;        staffService.addStaff(newStaff);</b>
+<b class="fc">&nbsp;        response.sendRedirect(&quot;StaffController&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void updateStaff(HttpServletRequest request, HttpServletResponse response)
+&nbsp;            throws SQLException, IOException {
+<b class="fc">&nbsp;        int id = Integer.parseInt(request.getParameter(&quot;id&quot;));</b>
+<b class="fc">&nbsp;        String username = request.getParameter(&quot;username&quot;);</b>
+<b class="fc">&nbsp;        String email = request.getParameter(&quot;email&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        StaffDTO staff = new StaffDTO();</b>
+<b class="fc">&nbsp;        staff.setId(id);</b>
+<b class="fc">&nbsp;        staff.setUsername(username);</b>
+<b class="fc">&nbsp;        staff.setEmail(email);</b>
+&nbsp;
+<b class="fc">&nbsp;        staffService.updateStaff(staff);</b>
+<b class="fc">&nbsp;        response.sendRedirect(&quot;StaffController&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void deleteStaff(HttpServletRequest request, HttpServletResponse response)
+&nbsp;            throws SQLException, IOException {
+<b class="fc">&nbsp;        int id = Integer.parseInt(request.getParameter(&quot;id&quot;));</b>
+<b class="fc">&nbsp;        staffService.deleteStaff(id);</b>
+<b class="fc">&nbsp;        response.sendRedirect(&quot;StaffController&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-08-18 10:00</div>
+</div>
+</body>
+</html>

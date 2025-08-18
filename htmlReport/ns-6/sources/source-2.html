@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CustomerServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.pahanaedu.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: CustomerServiceImpl (com.pahanaedu.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CustomerServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.8%
+  </span>
+  <span class="absValue">
+    (23/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.pahanaedu.service.impl;
+&nbsp;
+&nbsp;import com.pahanaedu.dao.CustomerDAO;
+&nbsp;import com.pahanaedu.dao.impl.CustomerDAOImpl;
+&nbsp;import com.pahanaedu.dto.CustomerDTO;
+&nbsp;import com.pahanaedu.model.Customer;
+&nbsp;import com.pahanaedu.service.CustomerService;
+&nbsp;
+&nbsp;import java.sql.Connection;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="fc">&nbsp;public abstract class CustomerServiceImpl implements CustomerService {</b>
+&nbsp;    private Connection connection;
+<b class="fc">&nbsp;    public CustomerDAO customerDAO = new CustomerDAOImpl();</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean registerCustomer(Customer customer) {
+<b class="fc">&nbsp;        return customerDAO.addCustomer(customer);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public CustomerDTO getCustomerDetails(int id) {
+<b class="fc">&nbsp;        Customer customer = customerDAO.getCustomerById(id);</b>
+<b class="pc">&nbsp;        if (customer != null) {</b>
+<b class="fc">&nbsp;            return convertToDTO(customer);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public abstract boolean addCustomer(Customer customer);
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;CustomerDTO&gt; getAllCustomers() {
+<b class="fc">&nbsp;        List&lt;Customer&gt; customers = customerDAO.getAllCustomers();</b>
+<b class="fc">&nbsp;        List&lt;CustomerDTO&gt; customerDTOs = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Customer customer : customers) {</b>
+<b class="fc">&nbsp;            customerDTOs.add(convertToDTO(customer));</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return customerDTOs;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean updateCustomerDetails(Customer customer) {
+<b class="fc">&nbsp;        return customerDAO.updateCustomer(customer);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean removeCustomer(int id) {
+<b class="fc">&nbsp;        return customerDAO.deleteCustomer(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int getTotalCustomerCount() {
+<b class="fc">&nbsp;        return customerDAO.getCustomerCount();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Customer getCustomerById(int id) {
+<b class="fc">&nbsp;        return customerDAO.getCustomerById(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private CustomerDTO convertToDTO(Customer customer) {
+<b class="fc">&nbsp;        CustomerDTO dto = new CustomerDTO();</b>
+<b class="fc">&nbsp;        dto.setId(customer.getId());</b>
+<b class="fc">&nbsp;        dto.setName(customer.getName());</b>
+<b class="fc">&nbsp;        dto.setEmail(customer.getEmail());</b>
+<b class="fc">&nbsp;        dto.setPhone(customer.getPhone());</b>
+<b class="fc">&nbsp;        dto.setAddress(customer.getAddress());</b>
+<b class="fc">&nbsp;        dto.setCreatedAt(customer.getCreatedAt());</b>
+<b class="fc">&nbsp;        return dto;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-08-18 10:00</div>
+</div>
+</body>
+</html>

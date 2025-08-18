@@ -1,0 +1,169 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BillDTO</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.pahanaedu.dto</a>
+</div>
+
+<h1>Coverage Summary for Class: BillDTO (com.pahanaedu.dto)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BillDTO</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.pahanaedu.dto;
+&nbsp;
+&nbsp;import java.sql.Timestamp;
+&nbsp;
+<b class="fc">&nbsp;public class BillDTO {</b>
+&nbsp;    private int billId;
+&nbsp;    private String itemIds;
+&nbsp;    private int customerId;
+&nbsp;    private String customerName;
+&nbsp;    private Timestamp billDateTime;
+&nbsp;    private double totalAmount;
+&nbsp;
+&nbsp;    // Getters and Setters
+&nbsp;    public int getBillId() {
+<b class="fc">&nbsp;        return billId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setBillId(int billId) {
+<b class="fc">&nbsp;        this.billId = billId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getItemIds() {
+<b class="fc">&nbsp;        return itemIds;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setItemIds(String itemIds) {
+<b class="fc">&nbsp;        this.itemIds = itemIds;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getCustomerId() {
+<b class="fc">&nbsp;        return customerId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCustomerId(int customerId) {
+<b class="fc">&nbsp;        this.customerId = customerId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getCustomerName() {
+<b class="fc">&nbsp;        return customerName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setCustomerName(String customerName) {
+<b class="fc">&nbsp;        this.customerName = customerName;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Timestamp getBillDateTime() {
+<b class="fc">&nbsp;        return billDateTime;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setBillDateTime(Timestamp billDateTime) {
+<b class="fc">&nbsp;        this.billDateTime = billDateTime;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public double getTotalAmount() {
+<b class="fc">&nbsp;        return totalAmount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTotalAmount(double totalAmount) {
+<b class="fc">&nbsp;        this.totalAmount = totalAmount;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Double getQuantities() {
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-08-18 10:00</div>
+</div>
+</body>
+</html>

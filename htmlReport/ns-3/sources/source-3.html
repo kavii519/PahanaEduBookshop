@@ -1,0 +1,233 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ItemDAOImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.pahanaedu.dao.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: ItemDAOImpl (com.pahanaedu.dao.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemDAOImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.1%
+  </span>
+  <span class="absValue">
+    (11/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (68/68)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.pahanaedu.dao.impl;
+&nbsp;
+&nbsp;import com.pahanaedu.dao.ItemDAO;
+&nbsp;import com.pahanaedu.model.Item;
+&nbsp;import com.pahanaedu.util.DBConnection;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class ItemDAOImpl implements ItemDAO {
+&nbsp;    private Connection connection;
+&nbsp;
+<b class="fc">&nbsp;    public ItemDAOImpl() {</b>
+<b class="fc">&nbsp;        this.connection = connection;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public boolean addItem(Item item) throws SQLException {
+<b class="fc">&nbsp;        String sql = &quot;INSERT INTO items (name, description, price, stock_quantity, created_at, updated_at) VALUES (?, ?, ?, ?, NOW(), NOW())&quot;;</b>
+<b class="pc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = conn.prepareStatement(sql)) {</b>
+<b class="fc">&nbsp;            ps.setString(1, item.getName());</b>
+<b class="fc">&nbsp;            ps.setString(2, item.getDescription());</b>
+<b class="fc">&nbsp;            ps.setDouble(3, item.getPrice());</b>
+<b class="fc">&nbsp;            ps.setInt(4, item.getStockQuantity());</b>
+<b class="pc">&nbsp;            return ps.executeUpdate() &gt; 0;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean updateItem(Item item) throws SQLException {
+<b class="fc">&nbsp;        String sql = &quot;UPDATE items SET name=?, description=?, price=?, stock_quantity=?, updated_at=NOW() WHERE id=?&quot;;</b>
+<b class="pc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = conn.prepareStatement(sql)) {</b>
+<b class="fc">&nbsp;            ps.setString(1, item.getName());</b>
+<b class="fc">&nbsp;            ps.setString(2, item.getDescription());</b>
+<b class="fc">&nbsp;            ps.setDouble(3, item.getPrice());</b>
+<b class="fc">&nbsp;            ps.setInt(4, item.getStockQuantity());</b>
+<b class="fc">&nbsp;            ps.setInt(5, item.getId());</b>
+<b class="fc">&nbsp;            return ps.executeUpdate() &gt; 0;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean deleteItem(int id) throws SQLException {
+<b class="fc">&nbsp;        String sql = &quot;DELETE FROM items WHERE id=?&quot;;</b>
+<b class="pc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = conn.prepareStatement(sql)) {</b>
+<b class="fc">&nbsp;            ps.setInt(1, id);</b>
+<b class="fc">&nbsp;            return ps.executeUpdate() &gt; 0;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Item getItemById(int id) throws SQLException {
+<b class="fc">&nbsp;        String sql = &quot;SELECT * FROM items WHERE id=?&quot;;</b>
+<b class="fc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = conn.prepareStatement(sql)) {</b>
+<b class="fc">&nbsp;            ps.setInt(1, id);</b>
+<b class="fc">&nbsp;            ResultSet rs = ps.executeQuery();</b>
+<b class="fc">&nbsp;            if (rs.next()) {</b>
+<b class="fc">&nbsp;                return new Item(</b>
+<b class="fc">&nbsp;                        rs.getInt(&quot;id&quot;),</b>
+<b class="fc">&nbsp;                        rs.getString(&quot;name&quot;),</b>
+<b class="fc">&nbsp;                        rs.getString(&quot;description&quot;),</b>
+<b class="fc">&nbsp;                        rs.getDouble(&quot;price&quot;),</b>
+<b class="fc">&nbsp;                        rs.getInt(&quot;stock_quantity&quot;),</b>
+<b class="fc">&nbsp;                        rs.getTimestamp(&quot;created_at&quot;),</b>
+<b class="fc">&nbsp;                        rs.getTimestamp(&quot;updated_at&quot;)</b>
+&nbsp;                );
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Item&gt; getAllItems() throws SQLException {
+<b class="fc">&nbsp;        List&lt;Item&gt; items = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        String sql = &quot;SELECT * FROM items ORDER BY created_at DESC&quot;;</b>
+<b class="fc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             Statement st = conn.createStatement();</b>
+<b class="fc">&nbsp;             ResultSet rs = st.executeQuery(sql)) {</b>
+<b class="fc">&nbsp;            while (rs.next()) {</b>
+<b class="fc">&nbsp;                items.add(new Item(</b>
+<b class="fc">&nbsp;                        rs.getInt(&quot;id&quot;),</b>
+<b class="fc">&nbsp;                        rs.getString(&quot;name&quot;),</b>
+<b class="fc">&nbsp;                        rs.getString(&quot;description&quot;),</b>
+<b class="fc">&nbsp;                        rs.getDouble(&quot;price&quot;),</b>
+<b class="fc">&nbsp;                        rs.getInt(&quot;stock_quantity&quot;),</b>
+<b class="fc">&nbsp;                        rs.getTimestamp(&quot;created_at&quot;),</b>
+<b class="fc">&nbsp;                        rs.getTimestamp(&quot;updated_at&quot;)</b>
+&nbsp;                ));
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return items;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Item&gt; searchItems(String term) throws SQLException {
+<b class="fc">&nbsp;        List&lt;Item&gt; items = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        String sql = &quot;SELECT * FROM items WHERE name LIKE ? ORDER BY name LIMIT 10&quot;;</b>
+<b class="fc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             PreparedStatement ps = conn.prepareStatement(sql)) {</b>
+<b class="fc">&nbsp;            ps.setString(1, &quot;%&quot; + term + &quot;%&quot;);</b>
+<b class="fc">&nbsp;            ResultSet rs = ps.executeQuery();</b>
+<b class="fc">&nbsp;            while (rs.next()) {</b>
+<b class="fc">&nbsp;                Item item = new Item();</b>
+<b class="fc">&nbsp;                item.setId(rs.getInt(&quot;id&quot;));</b>
+<b class="fc">&nbsp;                item.setName(rs.getString(&quot;name&quot;));</b>
+<b class="fc">&nbsp;                item.setPrice(rs.getDouble(&quot;price&quot;));</b>
+<b class="fc">&nbsp;                item.setStockQuantity(rs.getInt(&quot;stock_quantity&quot;));</b>
+<b class="fc">&nbsp;                items.add(item);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return items;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-08-18 10:00</div>
+</div>
+</body>
+</html>

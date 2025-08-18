@@ -1,0 +1,246 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BillServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.pahanaedu.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: BillServiceImpl (com.pahanaedu.service.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BillServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87.5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (53/53)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.pahanaedu.service.impl;
+&nbsp;
+&nbsp;import com.pahanaedu.dao.BillDAO;
+&nbsp;import com.pahanaedu.dao.CustomerDAO;
+&nbsp;import com.pahanaedu.dao.ItemDAO;
+&nbsp;import com.pahanaedu.dao.impl.BillDAOImpl;
+&nbsp;import com.pahanaedu.dao.impl.CustomerDAOImpl;
+&nbsp;import com.pahanaedu.dao.impl.ItemDAOImpl;
+&nbsp;import com.pahanaedu.dto.BillDTO;
+&nbsp;import com.pahanaedu.model.Bill;
+&nbsp;import com.pahanaedu.model.Customer;
+&nbsp;import com.pahanaedu.model.Item;
+&nbsp;import com.pahanaedu.service.BillService;
+&nbsp;import java.sql.Connection;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class BillServiceImpl implements BillService {
+&nbsp;    BillDAO billDAO;
+&nbsp;    CustomerDAO customerDAO;
+&nbsp;    ItemDAO itemDAO;
+&nbsp;    private Connection connection;
+&nbsp;
+<b class="fc">&nbsp;    public BillServiceImpl() {</b>
+<b class="fc">&nbsp;        this.billDAO = new BillDAOImpl();</b>
+<b class="fc">&nbsp;        this.customerDAO = new CustomerDAOImpl();</b>
+<b class="fc">&nbsp;        this.itemDAO = new ItemDAOImpl();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int createBill(BillDTO billDTO) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Bill bill = new Bill();</b>
+<b class="fc">&nbsp;            bill.setItemIds(billDTO.getItemIds());</b>
+<b class="fc">&nbsp;            bill.setCustomerId(billDTO.getCustomerId());</b>
+<b class="fc">&nbsp;            bill.setTotalAmount(billDTO.getTotalAmount());</b>
+&nbsp;
+<b class="fc">&nbsp;            return billDAO.createBill(bill);</b>
+&nbsp;        } catch (SQLException e) {
+<b class="fc">&nbsp;            System.err.println(&quot;Error creating bill: &quot; + e.getMessage());</b>
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            return -1;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public BillDTO getBillById(int billId) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Bill bill = billDAO.getBillById(billId);</b>
+<b class="fc">&nbsp;            if (bill == null) return null;</b>
+&nbsp;
+<b class="fc">&nbsp;            BillDTO billDTO = new BillDTO();</b>
+<b class="fc">&nbsp;            billDTO.setBillId(bill.getBillId());</b>
+<b class="fc">&nbsp;            billDTO.setItemIds(bill.getItemIds());</b>
+<b class="fc">&nbsp;            billDTO.setCustomerId(bill.getCustomerId());</b>
+<b class="fc">&nbsp;            billDTO.setBillDateTime(bill.getBillDateTime());</b>
+<b class="fc">&nbsp;            billDTO.setTotalAmount(bill.getTotalAmount());</b>
+&nbsp;
+&nbsp;            // Get customer name
+<b class="fc">&nbsp;            Customer customer = customerDAO.getCustomerById(bill.getCustomerId());</b>
+<b class="pc">&nbsp;            if (customer != null) {</b>
+<b class="fc">&nbsp;                billDTO.setCustomerName(customer.getName());</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            return billDTO;</b>
+&nbsp;        } catch (SQLException e) {
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;BillDTO&gt; getAllBills() {
+&nbsp;        try {
+<b class="fc">&nbsp;            List&lt;Bill&gt; bills = billDAO.getAllBills();</b>
+<b class="fc">&nbsp;            List&lt;BillDTO&gt; billDTOs = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;            for (Bill bill : bills) {</b>
+<b class="fc">&nbsp;                BillDTO billDTO = new BillDTO();</b>
+<b class="fc">&nbsp;                billDTO.setBillId(bill.getBillId());</b>
+<b class="fc">&nbsp;                billDTO.setItemIds(bill.getItemIds());</b>
+<b class="fc">&nbsp;                billDTO.setCustomerId(bill.getCustomerId());</b>
+<b class="fc">&nbsp;                billDTO.setBillDateTime(bill.getBillDateTime());</b>
+<b class="fc">&nbsp;                billDTO.setTotalAmount(bill.getTotalAmount());</b>
+&nbsp;
+&nbsp;                // Get customer name
+<b class="fc">&nbsp;                Customer customer = customerDAO.getCustomerById(bill.getCustomerId());</b>
+<b class="fc">&nbsp;                if (customer != null) {</b>
+<b class="fc">&nbsp;                    billDTO.setCustomerName(customer.getName());</b>
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                billDTOs.add(billDTO);</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            return billDTOs;</b>
+&nbsp;        } catch (SQLException e) {
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            return new ArrayList&lt;&gt;();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean updateBill(BillDTO billDTO) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Bill bill = new Bill();</b>
+<b class="fc">&nbsp;            bill.setBillId(billDTO.getBillId());</b>
+<b class="fc">&nbsp;            bill.setItemIds(billDTO.getItemIds());</b>
+<b class="fc">&nbsp;            bill.setCustomerId(billDTO.getCustomerId());</b>
+<b class="fc">&nbsp;            bill.setTotalAmount(billDTO.getTotalAmount());</b>
+&nbsp;
+<b class="fc">&nbsp;            return billDAO.updateBill(bill);</b>
+&nbsp;        } catch (SQLException e) {
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean deleteBill(int billId) {
+&nbsp;        try {
+<b class="fc">&nbsp;            return billDAO.deleteBill(billId);</b>
+&nbsp;        } catch (SQLException e) {
+<b class="fc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-08-18 10:00</div>
+</div>
+</body>
+</html>

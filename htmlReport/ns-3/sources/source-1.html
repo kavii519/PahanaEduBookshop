@@ -1,0 +1,235 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BillDAOImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.pahanaedu.dao.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: BillDAOImpl (com.pahanaedu.dao.impl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BillDAOImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    44.4%
+  </span>
+  <span class="absValue">
+    (8/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93%
+  </span>
+  <span class="absValue">
+    (53/57)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.pahanaedu.dao.impl;
+&nbsp;
+&nbsp;import com.pahanaedu.dao.BillDAO;
+&nbsp;import com.pahanaedu.model.Bill;
+&nbsp;import com.pahanaedu.util.DBConnection;
+&nbsp;
+&nbsp;import java.sql.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="fc">&nbsp;public class BillDAOImpl implements BillDAO {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int createBill(Bill bill) throws SQLException {
+<b class="fc">&nbsp;        String sql = &quot;INSERT INTO bill (item_ids, customer_id, total_amount) VALUES (?, ?, ?)&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {</b>
+&nbsp;
+<b class="fc">&nbsp;            stmt.setString(1, bill.getItemIds());</b>
+<b class="fc">&nbsp;            stmt.setInt(2, bill.getCustomerId());</b>
+<b class="fc">&nbsp;            stmt.setDouble(3, bill.getTotalAmount());</b>
+&nbsp;
+&nbsp;            int affectedRows;
+&nbsp;            try {
+<b class="fc">&nbsp;                affectedRows = stmt.executeUpdate();</b>
+&nbsp;            } catch (SQLException e) {
+<b class="nc">&nbsp;                System.err.println(&quot;SQLException: &quot; + e.getMessage());</b>
+<b class="nc">&nbsp;                e.printStackTrace();</b>
+&nbsp;                throw e;
+&nbsp;            }
+&nbsp;
+<b class="pc">&nbsp;            if (affectedRows == 0) {</b>
+<b class="nc">&nbsp;                throw new SQLException(&quot;Creating bill failed, no rows affected.&quot;);</b>
+&nbsp;            }
+&nbsp;
+<b class="fc">&nbsp;            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {</b>
+<b class="pc">&nbsp;                if (generatedKeys.next()) {</b>
+<b class="fc">&nbsp;                    return generatedKeys.getInt(1);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    throw new SQLException(&quot;Creating bill failed, no ID obtained.&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Bill getBillById(int billId) throws SQLException {
+<b class="fc">&nbsp;        String sql = &quot;SELECT * FROM bill WHERE bill_id = ?&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             PreparedStatement stmt = conn.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="fc">&nbsp;            stmt.setInt(1, billId);</b>
+<b class="fc">&nbsp;            ResultSet rs = stmt.executeQuery();</b>
+&nbsp;
+<b class="fc">&nbsp;            if (rs.next()) {</b>
+<b class="fc">&nbsp;                Bill bill = new Bill();</b>
+<b class="fc">&nbsp;                bill.setBillId(rs.getInt(&quot;bill_id&quot;));</b>
+<b class="fc">&nbsp;                bill.setItemIds(rs.getString(&quot;item_ids&quot;));</b>
+<b class="fc">&nbsp;                bill.setCustomerId(rs.getInt(&quot;customer_id&quot;));</b>
+<b class="fc">&nbsp;                bill.setBillDateTime(rs.getTimestamp(&quot;bill_date_time&quot;));</b>
+<b class="fc">&nbsp;                bill.setTotalAmount(rs.getDouble(&quot;total_amount&quot;));</b>
+<b class="fc">&nbsp;                return bill;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;Bill&gt; getAllBills() throws SQLException {
+<b class="fc">&nbsp;        List&lt;Bill&gt; bills = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        String sql = &quot;SELECT * FROM bill&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             Statement stmt = conn.createStatement();</b>
+<b class="fc">&nbsp;             ResultSet rs = stmt.executeQuery(sql)) {</b>
+&nbsp;
+<b class="fc">&nbsp;            while (rs.next()) {</b>
+<b class="fc">&nbsp;                Bill bill = new Bill();</b>
+<b class="fc">&nbsp;                bill.setBillId(rs.getInt(&quot;bill_id&quot;));</b>
+<b class="fc">&nbsp;                bill.setItemIds(rs.getString(&quot;item_ids&quot;));</b>
+<b class="fc">&nbsp;                bill.setCustomerId(rs.getInt(&quot;customer_id&quot;));</b>
+<b class="fc">&nbsp;                bill.setBillDateTime(rs.getTimestamp(&quot;bill_date_time&quot;));</b>
+<b class="fc">&nbsp;                bill.setTotalAmount(rs.getDouble(&quot;total_amount&quot;));</b>
+<b class="fc">&nbsp;                bills.add(bill);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return bills;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean updateBill(Bill bill) throws SQLException {
+<b class="fc">&nbsp;        String sql = &quot;UPDATE bill SET item_ids = ?, customer_id = ?, total_amount = ? WHERE bill_id = ?&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             PreparedStatement stmt = conn.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="fc">&nbsp;            stmt.setString(1, bill.getItemIds());</b>
+<b class="fc">&nbsp;            stmt.setInt(2, bill.getCustomerId());</b>
+<b class="fc">&nbsp;            stmt.setDouble(3, bill.getTotalAmount());</b>
+<b class="fc">&nbsp;            stmt.setInt(4, bill.getBillId());</b>
+&nbsp;
+<b class="pc">&nbsp;            return stmt.executeUpdate() &gt; 0;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean deleteBill(int billId) throws SQLException {
+<b class="fc">&nbsp;        String sql = &quot;DELETE FROM bill WHERE bill_id = ?&quot;;</b>
+&nbsp;
+<b class="pc">&nbsp;        try (Connection conn = DBConnection.getConnection();</b>
+<b class="fc">&nbsp;             PreparedStatement stmt = conn.prepareStatement(sql)) {</b>
+&nbsp;
+<b class="fc">&nbsp;            stmt.setInt(1, billId);</b>
+<b class="pc">&nbsp;            return stmt.executeUpdate() &gt; 0;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-08-18 10:00</div>
+</div>
+</body>
+</html>

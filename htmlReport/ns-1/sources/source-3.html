@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CustomerSearchServlet</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.pahanaedu.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: CustomerSearchServlet (com.pahanaedu.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CustomerSearchServlet</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.2%
+  </span>
+  <span class="absValue">
+    (13/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.pahanaedu.controller;
+&nbsp;
+&nbsp;import com.pahanaedu.dao.impl.CustomerDAOImpl;
+&nbsp;import com.pahanaedu.model.Customer;
+&nbsp;
+&nbsp;import javax.servlet.ServletException;
+&nbsp;import javax.servlet.annotation.WebServlet;
+&nbsp;import javax.servlet.http.HttpServlet;
+&nbsp;import javax.servlet.http.HttpServletRequest;
+&nbsp;import javax.servlet.http.HttpServletResponse;
+&nbsp;import java.io.IOException;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@WebServlet(&quot;/customer/search&quot;)
+<b class="fc">&nbsp;public class CustomerSearchServlet extends HttpServlet {</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+<b class="fc">&nbsp;        String term = request.getParameter(&quot;term&quot;);</b>
+<b class="pc">&nbsp;        if (term == null) term = &quot;&quot;;</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            List&lt;Customer&gt; customers = new CustomerDAOImpl().searchCustomers(term);</b>
+<b class="fc">&nbsp;            response.setContentType(&quot;application/json&quot;);</b>
+<b class="fc">&nbsp;            response.setCharacterEncoding(&quot;UTF-8&quot;);</b>
+<b class="fc">&nbsp;            response.getWriter().print(&quot;[&quot;);</b>
+<b class="fc">&nbsp;            for (int i = 0; i &lt; customers.size(); i++) {</b>
+<b class="fc">&nbsp;                Customer c = customers.get(i);</b>
+<b class="fc">&nbsp;                response.getWriter().print(String.format(</b>
+&nbsp;                        &quot;{\&quot;id\&quot;:%d,\&quot;name\&quot;:\&quot;%s\&quot;,\&quot;email\&quot;:\&quot;%s\&quot;,\&quot;phone\&quot;:\&quot;%s\&quot;,\&quot;address\&quot;:\&quot;%s\&quot;}&quot;,
+<b class="fc">&nbsp;                        c.getId(), c.getName(), c.getEmail(), c.getPhone(), c.getAddress()));</b>
+<b class="pc">&nbsp;                if (i &lt; customers.size() - 1) {</b>
+<b class="nc">&nbsp;                    response.getWriter().print(&quot;,&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            response.getWriter().print(&quot;]&quot;);</b>
+&nbsp;        } catch (SQLException e) {
+<b class="nc">&nbsp;            e.printStackTrace(); // This helps you see the real error on server logs</b>
+<b class="nc">&nbsp;            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, &quot;Database error&quot;);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-08-18 10:00</div>
+</div>
+</body>
+</html>
