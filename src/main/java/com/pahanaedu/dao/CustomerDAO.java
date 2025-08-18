@@ -11,4 +11,7 @@ public interface CustomerDAO {
     boolean deleteCustomer(int id);
     int getCustomerCount();
 
+    int createCustomer(Customer customer);
+
+    void deleteCustomerByName(String test);
 }

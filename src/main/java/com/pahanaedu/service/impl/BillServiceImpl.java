@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BillServiceImpl implements BillService {
-    private BillDAO billDAO;
-    private CustomerDAO customerDAO;
-    private ItemDAO itemDAO;
+    BillDAO billDAO;
+    CustomerDAO customerDAO;
+    ItemDAO itemDAO;
     private Connection connection;
 
     public BillServiceImpl() {

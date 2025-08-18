@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/pahanaedu_db";
-    private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static String URL = "jdbc:mysql://localhost:3306/pahanaedu_db";
+    private static String USER = "root";
+    private static String PASSWORD = "";
 
     static {
         try {
@@ -26,10 +26,10 @@ public class DBConnection {
             try {
                 connection.close();
             } catch (SQLException e) {
-                System.err.println("Error closing connection: " + e.getMessage());
+                System.err.println("Error closing connection: " + e.getMessage()); // ❌ likely still uncovered
             }
         }
-    }
+}
 
     public static boolean testConnection() {
         try (Connection conn = getConnection()) {

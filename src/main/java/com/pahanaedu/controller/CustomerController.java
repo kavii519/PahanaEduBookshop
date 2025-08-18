@@ -22,9 +22,13 @@ import java.util.List;
         "/customers/edit",
         "/customers/delete"
 })
-public class CustomerController extends HttpServlet {
-    CustomerDAO customerDAO = CustomerDAOFactory.getCustomerDAO();
-    private final CustomerService customerService = new CustomerServiceImpl();
+public class CustomerController extends HttpServlet { CustomerDAO customerDAO = CustomerDAOFactory.getCustomerDAO();
+    CustomerService customerService = new CustomerServiceImpl() {
+        @Override
+        public boolean addCustomer(Customer customer) {
+            return false;
+        }
+    };;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

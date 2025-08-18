@@ -38,4 +38,4 @@ public class ItemSearchServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
-}
+} 

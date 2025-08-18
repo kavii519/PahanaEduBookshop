@@ -139,6 +139,16 @@ public class CustomerDAOImpl implements CustomerDAO {
         return 0;
     }
 
+    @Override
+    public int createCustomer(Customer customer) {
+        return 0;
+    }
+
+    @Override
+    public void deleteCustomerByName(String test) {
+
+    }
+
     public List<Customer> searchCustomers(String term) throws SQLException {
         List<Customer> customers = new ArrayList<>();
         String sql = "SELECT * FROM customers WHERE name LIKE ? OR email LIKE ? ORDER BY name LIMIT 10";

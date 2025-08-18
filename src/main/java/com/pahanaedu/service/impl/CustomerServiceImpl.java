@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerServiceImpl implements CustomerService {
+public abstract class CustomerServiceImpl implements CustomerService {
     private Connection connection;
     public CustomerDAO customerDAO = new CustomerDAOImpl();
 
@@ -28,6 +28,8 @@ public class CustomerServiceImpl implements CustomerService {
         return null;
     }
 
+    public abstract boolean addCustomer(Customer customer);
+
     @Override
     public List<CustomerDTO> getAllCustomers() {
         List<Customer> customers = customerDAO.getAllCustomers();
@@ -38,6 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return customerDTOs;
     }
+
 
     @Override
     public boolean updateCustomerDetails(Customer customer) {

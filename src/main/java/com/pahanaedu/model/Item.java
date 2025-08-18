@@ -23,6 +23,9 @@ public class Item {
         this.updatedAt = updatedAt;
     }
 
+    public Item(int i, String s, double v, int i1) {
+    }
+
     // Getters & Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
